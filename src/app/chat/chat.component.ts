@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {AppService} from '../app.service';
 
 @Component({
   selector: 'ttm-chat',
@@ -7,7 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChatComponent implements OnInit {
 
-  constructor() { }
+  constructor(private service: AppService) {
+    // example implementation
+    // this.service.messageEmitter.subscribe(msg => this.messages.push(msg));
+  }
 
   ngOnInit() {
   }
