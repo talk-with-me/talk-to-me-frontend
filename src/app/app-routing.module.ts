@@ -1,12 +1,13 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {LandingComponent} from './landing/landing.component';
-import {ChatComponent} from './chat/chat.component';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { LandingComponent } from './landing/landing.component';
+import { ChatComponent } from './chat/chat.component';
 
 
 const routes: Routes = [
-  {path: '', component: LandingComponent},
-  {path: 'chat', component: ChatComponent},
+  { path: '', redirectTo: '/landing', pathMatch: 'full' },
+  { path: 'landing', component: LandingComponent },
+  { path: 'chat', component: ChatComponent },
 ];
 
 @NgModule({
