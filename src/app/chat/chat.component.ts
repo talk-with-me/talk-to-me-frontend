@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AppService} from '../app.service';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { MsgItem } from './msg-item/msg-item';
+import {MsgItem, WhateverItem} from './msg-item/msg-item';
 
 
 @Component({
@@ -16,20 +16,29 @@ export class ChatComponent implements OnInit {
 
   constructor(private service: AppService) {
     // example implementation
-    // this.service.messageEmitter.subscribe(msg => this.messages.push(msg));
+    this.service.messageEmitter.subscribe(msg => this.onMessage(msg));
   }
 
   ngOnInit() { }
 
-  msgList: MsgItem[] = [
-    { msg: 'first message' },
-    { msg: 'second message' },
-    { msg: 'This is a very long message, testing how it handles when the user types a really long message into the chat. This message has many characters' },
-    { msg: 'Testing a long word: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' },
+  msgList: WhateverItem[] = [
+    {type: 'joinleave', isJoin: true},
+    {type: 'message', msg: 'string', sent: true, nonce: 'blah', sentByMe: true, id: 'asdf'},
+    {type: 'message', msg: 'second message', sent: true, nonce: 'blah', sentByMe: false, id: 'asdfa'},
+    {type: 'message', msg: 'This is a very long message, testing how it handles when the user types a really long message into the chat. This message has many characters' ,
+      sent: true, nonce: 'blah', sentByMe: false, id: 'asdfasd'},
+    {type: 'message', msg: 'this one is still sending', sent: false, nonce: 'blah', sentByMe: true, id: 'asdasdadf'},
+    {type: 'joinleave', isJoin: false},
   ]
 
   sendMsg(msg: string) {
-    this.msgList.push({ msg });
+    const obj = { msg , sent: false, nonce: 'blah', sentByMe: true};
+    // this.msgList.push(obj);
+    // this.service.sendMessage(someRoomId, obj.msg, obj.nonce)
+  }
+
+  onMessage(incoming: any) {
+    // this.msgList.find(msg => msg.nonce === incoming.nonce).sent = true;
   }
 
 }
