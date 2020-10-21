@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AppService} from '../app.service';
-import {WhateverItem} from './msg-item/msg-item';
+import {MsgItem, WhateverItem} from './msg-item/msg-item';
+import {generateNonce} from '../utils/random';
 
 
 @Component({
@@ -34,13 +35,23 @@ export class ChatComponent implements OnInit {
   }
 
   sendMsg(msg: string) {
-    const obj = {msg, sent: false, nonce: 'blah', sentByMe: true};
-    // this.msgList.push(obj);
-    // this.service.sendMessage(someRoomId, obj.msg, obj.nonce)
+    const nonce = generateNonce();
+    const dummy: MsgItem = {msg, sent: false, nonce, sentByMe: true, id: null, type: 'message'};
+    this.msgList.push(dummy);
+    this.service.sendMessage('someRoomId', msg, nonce)
+      .subscribe(result => {
+        if (result.success) {
+          dummy.id = result.data.id;
+          dummy.sent = true;
+        }
+      });
   }
 
   onMessage(incoming: any) {
-    // this.msgList.find(msg => msg.nonce === incoming.nonce).sent = true;
+    const existing = this.msgList.find(msg => msg.type === 'message' && msg.nonce === incoming.nonce);
+    if (!existing) {
+      this.msgList.push(incoming); // transform object?
+    }
   }
 
 }
