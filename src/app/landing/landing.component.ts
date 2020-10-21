@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {AppService} from '../app.service';
 
 @Component({
   selector: 'ttm-landing',
@@ -11,7 +12,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LandingComponent implements OnInit {
 
-  constructor() { }
+  constructor(private service: AppService) {
+  }
 
   ngOnInit() {
   }

@@ -1,5 +1,8 @@
+import {Component, OnInit} from '@angular/core';
+import {AppService} from '../app.service';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { MsgItem } from './msg-item/msg-item';
+
 
 @Component({
   selector: 'ttm-chat',
@@ -11,7 +14,10 @@ export class ChatComponent implements OnInit {
 
   default_text = "Type something...";
 
-  constructor() { }
+  constructor(private service: AppService) {
+    // example implementation
+    // this.service.messageEmitter.subscribe(msg => this.messages.push(msg));
+  }
 
   ngOnInit() { }
 
