@@ -1,1 +1,18 @@
-<p>chat works!</p>
+<nav>
+    <a routerLink="/landing">Home</a>
+</nav>
+<div class='entire_chat'>
+    <div class="chat">
+        <div class="message_box">
+            <ul>
+                <li *ngFor="let msgItem of msgList">
+                    <span>
+                        <ttm-msg-item [item]="msgItem"></ttm-msg-item>
+                    </span>
+                </li>
+            </ul>
+        </div>
+
+        <ttm-send-chat (submit)="sendMsg($event)"></ttm-send-chat>
+    </div>
+</div>
