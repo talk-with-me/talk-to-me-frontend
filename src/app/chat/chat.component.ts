@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {AppService} from '../app.service';
-import {WhateverItem} from './msg-item/msg-item';
+import { Component, OnInit } from '@angular/core';
+import { AppService } from '../app.service';
+import { ChatItem, JoinLeaveItem, MsgItem } from './chat-items';
 
 
 @Component({
@@ -9,33 +9,43 @@ import {WhateverItem} from './msg-item/msg-item';
   styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent implements OnInit {
-  msgList: WhateverItem[] = [
-    {type: 'joinleave', isJoin: true},
-    {type: 'message', msg: 'string', sent: true, nonce: 'blah', sentByMe: true, id: 'asdf'},
-    {type: 'message', msg: 'second message', sent: true, nonce: 'blah', sentByMe: false, id: 'asdfa'},
-    {
-      type: 'message',
-      msg: 'This is a very long message, testing how it handles when the user types a really long message into the chat. This message has many characters',
-      sent: true,
-      nonce: 'blah',
-      sentByMe: false,
-      id: 'asdfasd'
-    },
-    {type: 'message', msg: 'this one is still sending', sent: false, nonce: 'blah', sentByMe: true, id: 'asdasdadf'},
-    {type: 'joinleave', isJoin: false},
+
+  joinTrue: JoinLeaveItem = {
+    id: 'necessary', type: 'joinleave', isJoin: true
+  };
+  msgSent: MsgItem = {
+    type: 'message', msg: 'string', sent: true, nonce: 'blah', sentByMe: true, id: 'asdf'
+  };
+  msgReceived: MsgItem = {
+    type: 'message', msg: 'second message is very long to see how it interacts sandwiched between two other messages', sent: true, nonce: 'blah', sentByMe: false, id: 'asdfa'
+  };
+  msgSending: MsgItem = {
+    type: 'message', msg: 'this one is still sending', sent: false, nonce: 'blah', sentByMe: true, id: 'asdasdadf'
+  };
+  joinFalse: JoinLeaveItem = {
+    id: 'necessary', type: 'joinleave', isJoin: false
+  };
+
+  chatItemList: ChatItem[] = [
+    this.joinTrue,
+    this.msgSent,
+    this.msgReceived,
+    this.msgSending,
+    this.msgSent,
+    this.joinFalse,
   ];
 
   constructor(private service: AppService) {
     // example implementation
-    this.service.messageEmitter.subscribe(msg => this.onMessage(msg));
+    // this.service.messageEmitter.subscribe(msg => this.onMessage(msg));
   }
 
   ngOnInit() {
   }
 
   sendMsg(msg: string) {
-    const obj = {msg, sent: false, nonce: 'blah', sentByMe: true};
-    // this.msgList.push(obj);
+    const obj = { id: 'necessary', type: 'message', msg: msg, sent: true, nonce: 'blah', sentByMe: true };
+    this.chatItemList.push(obj);
     // this.service.sendMessage(someRoomId, obj.msg, obj.nonce)
   }
 

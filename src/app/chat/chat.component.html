@@ -3,17 +3,22 @@
 </nav>
 <div class='entire_chat'>
     <div class="chat">
-        <div class="message_box">
-            <ul>
-                <li *ngFor="let msgItem of msgList">
-                    <span [ngSwitch]="msgItem.type">
-                        <ttm-msg-item *ngSwitchCase="'message'" [item]="msgItem"></ttm-msg-item>
-                        <ttm-join-leave *ngSwitchCase="'joinleave'" [item]="msgItem"></ttm-join-leave>
+        <ul>
+            <li *ngFor="let chatItem of chatItemList">
+                <div class="all_chat_wrap" [ngSwitch]="chatItem.type">
+                    <div class="chat_wrap" *ngSwitchCase="'message'" [ngSwitch]="chatItem.sentByMe">
+                        <div *ngSwitchCase="true" [ngSwitch]="chatItem.sent">
+                            <ttm-msg-item class="sent_by_me" *ngSwitchCase="true" [item]="chatItem"></ttm-msg-item>
+                            <ttm-msg-item class="sent_by_me" style="opacity: 0.5;" *ngSwitchCase="false" [item]="chatItem"></ttm-msg-item>
+                        </div>
+                        <ttm-msg-item class="sent_by_them" *ngSwitchCase="false" [item]="chatItem"></ttm-msg-item>
                         <p *ngSwitchDefault>this is an error</p>
-                    </span>
-                </li>
-            </ul>
-        </div>
+                    </div>
+                    <ttm-join-leave *ngSwitchCase="'joinleave'" [item]="chatItem"></ttm-join-leave>
+                    <p *ngSwitchDefault>this is an error</p>
+                </div>
+            </li>
+        </ul>
 
         <ttm-send-chat (submit)="sendMsg($event)"></ttm-send-chat>
     </div>
