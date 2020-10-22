@@ -1,12 +1,16 @@
-import {Component, OnInit} from '@angular/core';
-import {AppService} from '../app.service';
+import { Component, OnInit } from '@angular/core';
+import { AppService } from '../app.service';
 
 @Component({
   selector: 'ttm-landing',
   template: `
-    <nav align="center">
-      <a routerLink="/chat">Chat</a>
-    </nav>
+    <div class="landing_buttons">
+      <ul>
+        <li><a routerLink="/chat">Be Heard</a></li>
+        <li><a routerLink="/chat">Listen</a></li>
+        <li><a routerLink="/chat">Talk</a></li>
+      </ul>
+    </div>
   `,
   styleUrls: ['./landing.component.scss']
 })

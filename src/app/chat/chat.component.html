@@ -1,6 +1,7 @@
-<nav>
-    <a routerLink="/landing">Home</a>
-</nav>
+<ul class="menu">
+    <li class="menu_buttons"><a routerLink="/landing">Home</a></li>
+    <li class="menu_buttons"><a routerLink="/chat">Report</a></li>
+</ul>
 <div class='entire_chat'>
     <div class="chat">
         <ul>
@@ -14,7 +15,7 @@
                         <ttm-msg-item class="sent_by_them" *ngSwitchCase="false" [item]="chatItem"></ttm-msg-item>
                         <p *ngSwitchDefault>this is an error</p>
                     </div>
-                    <ttm-join-leave *ngSwitchCase="'joinleave'" [item]="chatItem"></ttm-join-leave>
+                    <ttm-join-leave class="join_leave" *ngSwitchCase="'joinleave'" [item]="chatItem"></ttm-join-leave>
                     <p *ngSwitchDefault>this is an error</p>
                 </div>
             </li>

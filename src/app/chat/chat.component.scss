@@ -6,12 +6,15 @@
 }
 
 .chat {
-    margin-top: 10px;
+    position: relative;
+    margin-top: 35px;
     border: 1px;
     border-style: solid;
     border-radius: 10px;
+    box-shadow: 5px 5px #222;
     background-color: #999;
     min-width: 450px;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .sent_by_me {
@@ -44,15 +47,24 @@
     float: left;
 }
 
+.join_leave {
+    color: #555;
+    position: absolute;
+    left: 15px;
+    top: 5px;
+    font-size: 12px;
+}
+
 // Messages
 ul {
     list-style-type: none;
     padding-inline-start: 15px;
-    min-height: 550px;
+    // min-height: 550px;
     max-height: 550px;
     overflow-y: scroll;
     margin-right: 5px;
     padding-bottom: 5px;
+    margin-top: 22px;
 }
 
 // Chat box
@@ -60,13 +72,23 @@ ttm-send-chat{
     display: flex;
     align-items: center;
     justify-content: center;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 // Navigation button(s)
-nav a {
+.menu {
+    list-style-type: none;
     position: fixed;
     left: 0;
     top: 0;
+    padding-right: 10px;
+    padding-inline-start: 0px;
+    margin: 0;
+}
+
+.menu_buttons a {
+    display: block;
+    text-align: center;
     padding: 5px 10px;
     text-decoration: none;
     margin-top: 10px;
@@ -75,12 +97,17 @@ nav a {
     background-color: #999;
     border-radius: 4px;
     border: 1px solid;
+    box-shadow: 2px 2px #222;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
-nav a:visited, a:link {
+.menu_buttons a:visited {
     color: black;
 }
 
+.menu_buttons a:hover{
+    background-color: #777;
+}
 
 // Scroll Bar
 ::-webkit-scrollbar {
