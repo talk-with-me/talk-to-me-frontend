@@ -37,6 +37,11 @@ export class ChatComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.currentRoomId = this.router.getCurrentNavigation().extras.state.roomId;
+    if (this.currentRoomId === undefined) {
+      console.warn('navigated to chat but roomId state is null - redirecting to landing');
+      this.router.navigate(['/landing']);
+    }
   }
 
   // button handlers
