@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {AppService} from '../app.service';
-import {MsgItem, WhateverItem} from './msg-item/msg-item';
 import {generateNonce} from '../utils/random';
 import {Router} from '@angular/router';
+import { ChatItem, JoinLeaveItem, MsgItem } from './chat-items';
 
 
 @Component({
@@ -11,20 +11,28 @@ import {Router} from '@angular/router';
   styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent implements OnInit {
-  msgList: WhateverItem[] = [
-    {type: 'joinleave', isJoin: true},
-    {type: 'message', msg: 'string', sent: true, nonce: 'blah', sentByMe: true, id: 'asdf'},
-    {type: 'message', msg: 'second message', sent: true, nonce: 'blah', sentByMe: false, id: 'asdfa'},
-    {
-      type: 'message',
-      msg: 'This is a very long message, testing how it handles when the user types a really long message into the chat. This message has many characters',
-      sent: true,
-      nonce: 'blah',
-      sentByMe: false,
-      id: 'asdfasd'
-    },
-    {type: 'message', msg: 'this one is still sending', sent: false, nonce: 'blah', sentByMe: true, id: 'asdasdadf'},
-    {type: 'joinleave', isJoin: false},
+
+  joinTrue: JoinLeaveItem = {
+    id: 'necessary', type: 'joinleave', isJoin: true
+  };
+  msgSent: MsgItem = {
+    type: 'message', msg: "Put a % first to set sent to false", sent: false, nonce: 'blah', sentByMe: true, id: 'asdf'
+  };
+  msgReceived: MsgItem = {
+    type: 'message', msg: "Put a & first to set sentByMe to false", sent: true, nonce: 'blah', sentByMe: false, id: 'asdf'
+  };
+  msgSending: MsgItem = {
+    type: 'message', msg: 'This message is very long to test how the chat handles long messages and making sure nothing bad happens!', sent: true, nonce: 'blah', sentByMe: true, id: 'asdfa'
+  };
+  joinFalse: JoinLeaveItem = {
+    id: 'necessary', type: 'joinleave', isJoin: false
+  };
+
+  chatItemList: ChatItem[] = [
+    this.joinTrue,
+    this.msgSent,
+    this.msgReceived,
+    this.msgSending,
   ];
 
   currentRoomId: string;
@@ -43,9 +51,32 @@ export class ChatComponent implements OnInit {
       this.router.navigate(['/landing']);
     }
   }
+  
+  dummySendMsg(msg: string) {
+    // code extracted from basic-ui branch, to be changed eventually
+    let sentVar = true;
+    let receiveVar = true;
+    let newMsg = msg;
+    if (msg[0] === "%") {
+      sentVar = false;
+      newMsg = msg.substring(1);
+    }
+    if (msg[0] === "&") {
+      receiveVar = false;
+      newMsg = msg.substring(1);
+    }
+    if (msg !== "") {
+      const obj = { id: 'necessary', type: 'message', msg: newMsg, sent: sentVar, nonce: 'blah', sentByMe: receiveVar };
+      this.chatItemList.push(obj);
+      // this.service.sendMessage(someRoomId, obj.msg, obj.nonce)
+    }
+  }
 
   // button handlers
   sendMsg(msg: string) {
+    dummySendMsg(msg);
+    return; // todo remove these lines to use the API
+    
     const nonce = generateNonce();
     const dummy: MsgItem = {msg, sent: false, nonce, sentByMe: true, id: null, type: 'message'};
     this.msgList.push(dummy);

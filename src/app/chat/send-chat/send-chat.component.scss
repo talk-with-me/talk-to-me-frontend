@@ -1,4 +1,13 @@
 input {
+    border: 1px;
+    border-style: solid;
+    border-radius: 10px;
+    padding-left: 10px;
     width: 100%;
-    height: 20px;
+    height: 25px;
+    background-color: #888;
+}
+
+::placeholder {
+    color: #222;
 }

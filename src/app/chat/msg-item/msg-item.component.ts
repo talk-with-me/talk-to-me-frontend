@@ -1,11 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MsgItem } from './msg-item';
+import { MsgItem } from '../chat-items';
 
 @Component({
   selector: 'ttm-msg-item',
-  template: `
-    {{ item.msg }}
-  `
+  templateUrl: './msg-item.component.html',
+  styleUrls: ['./msg-item.component.scss'],
 })
 export class MsgItemComponent implements OnInit {
   @Input() item: MsgItem;
