@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {Socket} from 'ngx-socket-io';
 import {Observable, of, Subject} from 'rxjs';
 import {environment} from '../environments/environment';
@@ -20,14 +20,14 @@ export class AppService {
   public userDisconnectedEmitter = new Subject();
   public messageEmitter = new Subject<Message>();
 
-  clientId: string;
+  public clientId: string;
   clientSecret: string;
 
   constructor(private http: HttpClient, private socket: Socket) {
-    this.socket.on('queue_complete', this.onQueueComplete);
-    this.socket.on('user_connected', this.onUserConnected);
-    this.socket.on('user_disconnected', this.onUserDisconnected);
-    this.socket.on('message', this.onMessage);
+    this.socket.on('queue_complete', (event) => this.onQueueComplete(event));
+    this.socket.on('user_connected', () => this.onUserConnected());
+    this.socket.on('user_disconnected', () => this.onUserDisconnected());
+    this.socket.on('send_message_to_client', (arg) => this.onMessage(arg));
   }
 
   // ==== HTTP ====
@@ -39,9 +39,11 @@ export class AppService {
   refreshAuth(): Observable<ApiResponse<User>> {
     return this.http.get<ApiResponse<User>>(`${environment.apiUrl}/auth`)
       .pipe(catchError(this.defaultErrorHandler))
-      .pipe(map((response: any) => {
-        this.clientId = response.userID;
-        this.clientSecret = response._id;
+      .pipe(map(response => {
+        if (response.success) {
+          this.clientId = response.data.userID;
+          this.clientSecret = response.data.secret;
+        }
         return response;
       }));
   }
@@ -52,75 +54,71 @@ export class AppService {
    * POST /queue
    * {queueType: vent | listen | talk}
    */
-  enterQueue(queueType: QueueType = 'talk'): Observable<ApiResponse<QueueCompleteEvent>> {  // todo type of response?
-    return this.http.post<ApiResponse<QueueCompleteEvent>>(`${environment.apiUrl}/queue`, {queueType}, this.defaultOptions())
-      .pipe(catchError(this.defaultErrorHandler));
-  }
-
-  /**
-   * Joins a chat room by ID (given by server).
-   *
-   * POST /:roomId/me
-   * {}
-   */
-  joinRoom(roomId: string): Observable<ApiResponse<string>> {
-    return this.http.post<ApiResponse<string>>(`${environment.apiUrl}/${roomId}/me`, {}, this.defaultOptions())
+  enterQueue(queueType: QueueType = 'talk'): Observable<ApiResponse<string>> {
+    return this.http.post<ApiResponse<string>>(`${environment.apiUrl}/queue`, {secret: this.clientSecret, queueType})
       .pipe(catchError(this.defaultErrorHandler));
   }
 
   /**
    * Sends a message to a chat room.
    *
-   * @param roomId The ID of the chat room
    * @param content The content of the message
    * @param nonce A nonce to verify delivery
    *
    * POST /:roomId/messages
    * {content: string, nonce: string}
    */
-  sendMessage(roomId: string, content: string, nonce: string): Observable<ApiResponse<Message>> {
-    return this.http.post<ApiResponse<Message>>(`${environment.apiUrl}/${roomId}/messages`, {content, nonce}, this.defaultOptions())
+  sendMessage(content: string, nonce: string): Observable<ApiResponse<Message>> {
+    return this.http.post<ApiResponse<Message>>(`${environment.apiUrl}/messages`,
+      {secret: this.clientSecret, message: content, nonce})
       .pipe(catchError(this.defaultErrorHandler));
+  }
+
+  // ==== Socket Send ====
+  /**
+   * Joins a chat room by ID (given by server).
+   */
+  joinRoom() {
+    return this.socket.emit('join_room', this.clientSecret);
   }
 
   /**
    * Leaves a chat room by ID.
    * DELETE /:roomId/me
    */
-  leaveRoom(roomId: string): Observable<ApiResponse<string>> {
-    return this.http.delete<ApiResponse<string>>(`${environment.apiUrl}/${roomId}/me`, this.defaultOptions())
-      .pipe(catchError(this.defaultErrorHandler));
+  leaveRoom(): Observable<ApiResponse<string>> {
+    return this.socket.emit('leave_room', this.clientSecret);
   }
 
-  // ==== Socket ====
+
+  // ==== Socket Recv ====
   /**
    * Handles the queue_complete socket event.
    */
-  onQueueComplete(...args: any) {
-    // todo handle queue being complete
-    // probably emit some event? navigate to chat room and send the connect payload?
-    this.queueCompleteEmitter.next(args);
+  onQueueComplete(event: QueueCompleteEvent) {
+    this.queueCompleteEmitter.next(event);
   }
 
   /**
    * Handles the user_connected socket event.
    */
-  onUserConnected(...args: any) {
+  onUserConnected() {
     this.userConnectedEmitter.next();
   }
 
   /**
    * Handles the user_disconnected socket event.
    */
-  onUserDisconnected(...args: any) {
+  onUserDisconnected() {
     this.userDisconnectedEmitter.next();
   }
 
   /**
    * Handles the message socket event.
    */
-  onMessage(...args: any) {
-    this.messageEmitter.next(args);
+  onMessage(message: Message) {
+    console.log(message);
+    this.messageEmitter.next(message);
   }
 
   // ==== helpers ====
@@ -134,15 +132,6 @@ export class AppService {
     });
   }
 
-  defaultOptions(additionalOptions = {}) {
-    if (!this.clientSecret) {
-      throw new Error('endpoint requires auth but no auth is stored');
-    }
-    return {
-      headers: new HttpHeaders({Authorization: this.clientSecret}),
-      ...additionalOptions
-    };
-  }
 
   defaultErrorHandler(err: HttpErrorResponse): Observable<ApiResponse<any>> {
     console.error(err);
