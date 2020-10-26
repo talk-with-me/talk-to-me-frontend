@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { AppService, QueueType } from '../app.service';
-import { Router } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {AppService, QueueType} from '../app.service';
+import {Router} from '@angular/router';
 
 
 @Component({
@@ -33,6 +33,6 @@ export class LandingComponent implements OnInit {
         if (result.success) {
           this.router.navigate(['chat']);
         }
-    }
+      });
   }
 }
