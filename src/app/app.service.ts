@@ -4,6 +4,7 @@ import {Socket} from 'ngx-socket-io';
 import {Observable, of, Subject} from 'rxjs';
 import {environment} from '../environments/environment';
 import {catchError, map} from 'rxjs/operators';
+import {ApiResponse, Message, QueueCompleteEvent, User} from './schemas/api';
 
 
 export type QueueType = 'vent' | 'listen' | 'talk';
@@ -14,10 +15,10 @@ export type QueueType = 'vent' | 'listen' | 'talk';
 })
 export class AppService {
 
-  public queueCompleteEmitter = new Subject();
+  public queueCompleteEmitter = new Subject<QueueCompleteEvent>();
   public userConnectedEmitter = new Subject();
   public userDisconnectedEmitter = new Subject();
-  public messageEmitter = new Subject();
+  public messageEmitter = new Subject<Message>();
 
   clientId: string;
   clientSecret: string;
@@ -51,8 +52,9 @@ export class AppService {
    * POST /queue
    * {queueType: vent | listen | talk}
    */
-  enterQueue(queueType: QueueType = 'talk'): Observable<any> {  // todo type of response?
-    return this.http.post(`${environment.apiUrl}/queue`, {queueType});
+  enterQueue(queueType: QueueType = 'talk'): Observable<ApiResponse<QueueCompleteEvent>> {  // todo type of response?
+    return this.http.post<ApiResponse<QueueCompleteEvent>>(`${environment.apiUrl}/queue`, {queueType}, this.defaultOptions())
+      .pipe(catchError(this.defaultErrorHandler));
   }
 
   /**
@@ -61,8 +63,9 @@ export class AppService {
    * POST /:roomId/me
    * {}
    */
-  joinRoom(roomId: string): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/${roomId}/me`, {});
+  joinRoom(roomId: string): Observable<ApiResponse<string>> {
+    return this.http.post<ApiResponse<string>>(`${environment.apiUrl}/${roomId}/me`, {}, this.defaultOptions())
+      .pipe(catchError(this.defaultErrorHandler));
   }
 
   /**
@@ -75,16 +78,18 @@ export class AppService {
    * POST /:roomId/messages
    * {content: string, nonce: string}
    */
-  sendMessage(roomId: string, content: string, nonce: string): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/${roomId}/messages`, {content, nonce});
+  sendMessage(roomId: string, content: string, nonce: string): Observable<ApiResponse<Message>> {
+    return this.http.post<ApiResponse<Message>>(`${environment.apiUrl}/${roomId}/messages`, {content, nonce}, this.defaultOptions())
+      .pipe(catchError(this.defaultErrorHandler));
   }
 
   /**
    * Leaves a chat room by ID.
    * DELETE /:roomId/me
    */
-  leaveRoom(roomId: string): Observable<any> {
-    return this.http.delete(`${environment.apiUrl}/${roomId}/me`);
+  leaveRoom(roomId: string): Observable<ApiResponse<string>> {
+    return this.http.delete<ApiResponse<string>>(`${environment.apiUrl}/${roomId}/me`, this.defaultOptions())
+      .pipe(catchError(this.defaultErrorHandler));
   }
 
   // ==== Socket ====
@@ -137,5 +142,10 @@ export class AppService {
       headers: new HttpHeaders({Authorization: this.clientSecret}),
       ...additionalOptions
     };
+  }
+
+  defaultErrorHandler(err: HttpErrorResponse): Observable<ApiResponse<any>> {
+    console.error(err);
+    return of({...err.error, status: err.status} as ApiResponse<any>);
   }
 }
