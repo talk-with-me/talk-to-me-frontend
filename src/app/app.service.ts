@@ -1,11 +1,13 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {Socket} from 'ngx-socket-io';
-import {Observable, Subject} from 'rxjs';
+import {Observable, of, Subject} from 'rxjs';
 import {environment} from '../environments/environment';
+import {catchError, map} from 'rxjs/operators';
 
 
 export type QueueType = 'vent' | 'listen' | 'talk';
+
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +19,9 @@ export class AppService {
   public userDisconnectedEmitter = new Subject();
   public messageEmitter = new Subject();
 
+  clientId: string;
+  clientSecret: string;
+
   constructor(private http: HttpClient, private socket: Socket) {
     this.socket.on('queue_complete', this.onQueueComplete);
     this.socket.on('user_connected', this.onUserConnected);
@@ -25,6 +30,21 @@ export class AppService {
   }
 
   // ==== HTTP ====
+  /**
+   * Retrieves anonymous auth data from the server.
+   *
+   * GET /auth
+   */
+  refreshAuth(): Observable<ApiResponse<User>> {
+    return this.http.get<ApiResponse<User>>(`${environment.apiUrl}/auth`)
+      .pipe(catchError(this.defaultErrorHandler))
+      .pipe(map((response: any) => {
+        this.clientId = response.userID;
+        this.clientSecret = response._id;
+        return response;
+      }));
+  }
+
   /**
    * Enters the client into a queue.
    *
@@ -96,5 +116,26 @@ export class AppService {
    */
   onMessage(...args: any) {
     this.messageEmitter.next(args);
+  }
+
+  // ==== helpers ====
+  ensureAuth(): void {
+    if (this.clientSecret) {  // don't do anything if we already have auth
+      return;
+    }
+    this.refreshAuth().subscribe(_ => {
+      console.log(`clientId: ${this.clientId}`);
+      console.log(`clientSecret: ${this.clientSecret}`);
+    });
+  }
+
+  defaultOptions(additionalOptions = {}) {
+    if (!this.clientSecret) {
+      throw new Error('endpoint requires auth but no auth is stored');
+    }
+    return {
+      headers: new HttpHeaders({Authorization: this.clientSecret}),
+      ...additionalOptions
+    };
   }
 }
