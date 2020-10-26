@@ -6,19 +6,18 @@ export interface ApiResponse<T> {
 }
 
 export interface User {
-  userId: string;
-  userSecret: string;
+  userID: string;
+  secret: string;
 }
 
 export interface QueueCompleteEvent {
-  roomId: string;
-  userId: string;
+  user_id: string;
 }
 
 export interface Message {
-  id: string;
-  authorId: string;
-  roomId: string;
+  _id: string;
+  room_id: string;
+  author: string;
   nonce: string;
   content: string;
   timestamp: string;  // iso8601

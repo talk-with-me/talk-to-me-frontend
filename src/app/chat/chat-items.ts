@@ -24,7 +24,7 @@ export class MsgItem implements ChatItem {
   }
 
   static fromApiEvent(event: Message): MsgItem {
-    return new MsgItem(event.id, event.content, true, event.nonce, false, false);
+    return new MsgItem(event._id, event.content, true, event.nonce, false, false);
   }
 }
 

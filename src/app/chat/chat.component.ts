@@ -3,7 +3,7 @@ import {AppService} from '../app.service';
 import {generateNonce} from '../utils/random';
 import {Router} from '@angular/router';
 import {ChatItem, JoinLeaveItem, MsgItem} from './chat-items';
-import {Message} from '../schemas/api';
+import {Message, QueueCompleteEvent} from '../schemas/api';
 
 
 @Component({
@@ -41,20 +41,17 @@ export class ChatComponent implements OnInit {
     this.msgSending,
   ];
 
-  currentRoomId: string;
-
   constructor(private service: AppService, private router: Router) {
     // example implementation
+    this.service.queueCompleteEmitter.subscribe(event => this.onQueueComplete(event));
     this.service.messageEmitter.subscribe(msg => this.onMessage(msg));
     this.service.userConnectedEmitter.subscribe(_ => this.onUserConnected());
     this.service.userDisconnectedEmitter.subscribe(_ => this.onUserDisconnected());
   }
 
   ngOnInit() {
-    this.currentRoomId = this.router.getCurrentNavigation().extras.state.roomId;
-    if (this.currentRoomId === undefined) {
-      console.warn('navigated to chat but roomId state is null - redirecting to landing');
-      this.router.navigate(['/landing']);
+    if (!this.service.clientId) {
+      this.router.navigate(['/']);
     }
   }
 
@@ -80,27 +77,33 @@ export class ChatComponent implements OnInit {
 
   // button handlers
   sendMsg(msg: string) {
-    this.dummySendMsg(msg);
-    return; // todo remove these lines to use the API
+    // this.dummySendMsg(msg);
+    // return; // todo remove these lines to use the API
 
     const nonce = generateNonce();
     const dummy: MsgItem = {msg, sent: false, nonce, sentByMe: true, id: null, type: 'message'};
     this.chatItemList.push(dummy);
-    this.service.sendMessage(this.currentRoomId, msg, nonce)
+    this.service.sendMessage(msg, nonce)
       .subscribe(result => {
         if (result.success) {
-          dummy.id = result.data.id;
+          dummy.id = result.data._id;
           dummy.sent = true;
         }
       });
   }
 
   leaveChat() {
-    this.service.leaveRoom(this.currentRoomId)
-      .subscribe(() => this.router.navigate(['/landing']));
+    this.service.leaveRoom();
+    this.router.navigate(['/landing']);
   }
 
   // event handlers
+  onQueueComplete(event: QueueCompleteEvent) {
+    if (event.user_id === this.service.clientId) {
+      this.service.joinRoom();
+    }
+  }
+
   onMessage(incoming: Message) {
     const existing = this.chatItemList.find((msg: MsgItem) => msg.type === 'message' && msg.nonce === incoming.nonce);
     const newMessage = MsgItem.fromApiEvent(incoming);
