@@ -4,14 +4,20 @@ import { JoinLeaveItem } from '../chat-items';
 @Component({
   selector: 'ttm-join-leave',
   template: `
-    isJoin: **{{ item.isJoin }}**
+    {{showMessage}}
   `,
 })
 export class JoinLeaveComponent implements OnInit {
   @Input() item: JoinLeaveItem;
 
+  showMessage = 'Finding room...';
+
   constructor() { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    if (this.item.isJoin) {
+      this.showMessage = 'Connected to another person'
+    }
+  }
 
 }

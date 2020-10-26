@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {AppService, QueueType} from '../app.service';
-import {Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { AppService, QueueType } from '../app.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -8,8 +8,8 @@ import {Router} from '@angular/router';
   template: `
     <div class="landing_buttons">
       <ul>
-        <li><a routerLink="/chat">Be Heard</a></li>
-        <li><a routerLink="/chat">Listen</a></li>
+        <!-- <li><a routerLink="/chat">Be Heard</a></li> -->
+        <!-- <li><a routerLink="/chat">Listen</a></li> -->
         <li><a routerLink="/chat">Talk</a></li>
       </ul>
     </div>
@@ -52,7 +52,7 @@ export class LandingComponent implements OnInit {
     this.service.joinRoom(event.roomId) // todo what does this event look like
       .subscribe(result => {
         // todo what does this response look like
-        this.router.navigate(['/chat'], {state: {roomId: event.roomId}});
+        this.router.navigate(['/chat'], { state: { roomId: event.roomId } });
       });
   }
 }
