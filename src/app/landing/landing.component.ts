@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {AppService, QueueType} from '../app.service';
-import {Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { AppService, QueueType } from '../app.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -8,8 +8,8 @@ import {Router} from '@angular/router';
   template: `
     <div class="landing_buttons">
       <ul>
-        <li><a (click)="joinQueue('vent')">Be Heard</a></li>
-        <li><a (click)="joinQueue('listen')">Listen</a></li>
+        <!-- <li><a (click)="joinQueue('vent')">Be Heard</a></li> -->
+        <!-- <li><a (click)="joinQueue('listen')">Listen</a></li> -->
         <li><a (click)="joinQueue('talk')">Talk</a></li>
       </ul>
     </div>
@@ -33,6 +33,6 @@ export class LandingComponent implements OnInit {
         if (result.success) {
           this.router.navigate(['chat']);
         }
-      });
+    }
   }
 }
