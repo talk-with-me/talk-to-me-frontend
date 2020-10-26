@@ -2,7 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {AppService} from '../app.service';
 import {generateNonce} from '../utils/random';
 import {Router} from '@angular/router';
-import { ChatItem, JoinLeaveItem, MsgItem } from './chat-items';
+import {ChatItem, JoinLeaveItem, MsgItem} from './chat-items';
+import {Message} from '../schemas/api';
 
 
 @Component({
@@ -16,13 +17,18 @@ export class ChatComponent implements OnInit {
     id: 'necessary', type: 'joinleave', isJoin: true
   };
   msgSent: MsgItem = {
-    type: 'message', msg: "Put a % first to set sent to false", sent: false, nonce: 'blah', sentByMe: true, id: 'asdf'
+    type: 'message', msg: 'Put a % first to set sent to false', sent: false, nonce: 'blah', sentByMe: true, id: 'asdf'
   };
   msgReceived: MsgItem = {
-    type: 'message', msg: "Put a & first to set sentByMe to false", sent: true, nonce: 'blah', sentByMe: false, id: 'asdf'
+    type: 'message', msg: 'Put a & first to set sentByMe to false', sent: true, nonce: 'blah', sentByMe: false, id: 'asdf'
   };
   msgSending: MsgItem = {
-    type: 'message', msg: 'This message is very long to test how the chat handles long messages and making sure nothing bad happens!', sent: true, nonce: 'blah', sentByMe: true, id: 'asdfa'
+    type: 'message',
+    msg: 'This message is very long to test how the chat handles long messages and making sure nothing bad happens!',
+    sent: true,
+    nonce: 'blah',
+    sentByMe: true,
+    id: 'asdfa'
   };
   joinFalse: JoinLeaveItem = {
     id: 'necessary', type: 'joinleave', isJoin: false
@@ -40,8 +46,8 @@ export class ChatComponent implements OnInit {
   constructor(private service: AppService, private router: Router) {
     // example implementation
     this.service.messageEmitter.subscribe(msg => this.onMessage(msg));
-    this.service.userConnectedEmitter.subscribe(msg => this.onUserConnected(msg));
-    this.service.userDisconnectedEmitter.subscribe(msg => this.onUserDisconnected(msg));
+    this.service.userConnectedEmitter.subscribe(_ => this.onUserConnected());
+    this.service.userDisconnectedEmitter.subscribe(_ => this.onUserDisconnected());
   }
 
   ngOnInit() {
@@ -51,22 +57,22 @@ export class ChatComponent implements OnInit {
       this.router.navigate(['/landing']);
     }
   }
-  
+
   dummySendMsg(msg: string) {
     // code extracted from basic-ui branch, to be changed eventually
     let sentVar = true;
     let receiveVar = true;
     let newMsg = msg;
-    if (msg[0] === "%") {
+    if (msg[0] === '%') {
       sentVar = false;
       newMsg = msg.substring(1);
     }
-    if (msg[0] === "&") {
+    if (msg[0] === '&') {
       receiveVar = false;
       newMsg = msg.substring(1);
     }
-    if (msg !== "") {
-      const obj = { id: 'necessary', type: 'message', msg: newMsg, sent: sentVar, nonce: 'blah', sentByMe: receiveVar };
+    if (msg !== '') {
+      const obj = {id: 'necessary', type: 'message', msg: newMsg, sent: sentVar, nonce: 'blah', sentByMe: receiveVar};
       this.chatItemList.push(obj);
       // this.service.sendMessage(someRoomId, obj.msg, obj.nonce)
     }
@@ -74,15 +80,14 @@ export class ChatComponent implements OnInit {
 
   // button handlers
   sendMsg(msg: string) {
-    dummySendMsg(msg);
+    this.dummySendMsg(msg);
     return; // todo remove these lines to use the API
-    
+
     const nonce = generateNonce();
     const dummy: MsgItem = {msg, sent: false, nonce, sentByMe: true, id: null, type: 'message'};
-    this.msgList.push(dummy);
+    this.chatItemList.push(dummy);
     this.service.sendMessage(this.currentRoomId, msg, nonce)
       .subscribe(result => {
-        // todo what does this result look like
         if (result.success) {
           dummy.id = result.data.id;
           dummy.sent = true;
@@ -96,18 +101,19 @@ export class ChatComponent implements OnInit {
   }
 
   // event handlers
-  onMessage(incoming: MsgItem) {
-    const existing = this.msgList.find(msg => msg.type === 'message' && msg.nonce === incoming.nonce);
+  onMessage(incoming: Message) {
+    const existing = this.chatItemList.find((msg: MsgItem) => msg.type === 'message' && msg.nonce === incoming.nonce);
+    const newMessage = MsgItem.fromApiEvent(incoming);
     if (!existing) {
-      this.msgList.push(incoming); // transform object?
+      this.chatItemList.push(newMessage); // transform object?
     }
   }
 
   onUserConnected() {
-    this.msgList.push({type: 'joinleave', isJoin: true});
+    this.chatItemList.push({type: 'joinleave', isJoin: true} as JoinLeaveItem);
   }
 
   onUserDisconnected() {
-    this.msgList.push({type: 'joinleave', isJoin: false});
+    this.chatItemList.push({type: 'joinleave', isJoin: false} as JoinLeaveItem);
   }
 }
