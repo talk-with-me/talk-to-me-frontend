@@ -28,6 +28,7 @@ export class LandingComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.service.ensureAuth();
   }
 
   // actions
