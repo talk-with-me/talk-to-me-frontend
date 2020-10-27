@@ -1,4 +1,4 @@
-import {Message} from '../schemas/api';
+import { Message } from '../schemas/api';
 
 export interface ChatItem {
   id: string;
@@ -31,4 +31,5 @@ export class MsgItem implements ChatItem {
 export interface JoinLeaveItem extends ChatItem {
   type: 'joinleave';
   isJoin: boolean;
+  disconnected?: boolean;
 }

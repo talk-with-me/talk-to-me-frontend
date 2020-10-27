@@ -18,6 +18,9 @@ export class JoinLeaveComponent implements OnInit {
     if (this.item.isJoin) {
       this.showMessage = 'Connected to another person'
     }
+    if (this.item.disconnected) {
+      this.showMessage = 'Disconnected from other person, please click home to chat again!'
+    }
   }
 
 }

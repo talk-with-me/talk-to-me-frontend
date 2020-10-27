@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {AppService} from '../app.service';
-import {generateNonce} from '../utils/random';
-import {Router} from '@angular/router';
-import {ChatItem, JoinLeaveItem, MsgItem} from './chat-items';
-import {Message, QueueCompleteEvent} from '../schemas/api';
+import { Component, OnInit } from '@angular/core';
+import { AppService } from '../app.service';
+import { generateNonce } from '../utils/random';
+import { Router } from '@angular/router';
+import { ChatItem, JoinLeaveItem, MsgItem } from './chat-items';
+import { Message, QueueCompleteEvent } from '../schemas/api';
 
 
 @Component({
@@ -15,33 +15,8 @@ export class ChatComponent implements OnInit {
 
   roomStatus = false;
 
-  joinTrue: JoinLeaveItem = {
-    id: 'necessary', type: 'joinleave', isJoin: true
-  };
-  msgSent: MsgItem = {
-    type: 'message', msg: 'Put a % first to set sent to false', sent: false, nonce: 'blah', sentByMe: true, id: 'asdf'
-  };
-  msgReceived: MsgItem = {
-    type: 'message', msg: 'Put a & first to set sentByMe to false', sent: true, nonce: 'blah', sentByMe: false, id: 'asdf'
-  };
-  msgSending: MsgItem = {
-    type: 'message',
-    msg: 'This message is very long to test how the chat handles long messages and making sure nothing bad happens!',
-    sent: true,
-    nonce: 'blah',
-    sentByMe: true,
-    id: 'asdfa'
-  };
-  joinFalse: JoinLeaveItem = {
-    id: 'necessary', type: 'joinleave', isJoin: false
-  };
-
   chatItemList: ChatItem[] = [
-    this.joinFalse,
-    // this.joinTrue,
-    // this.msgSent,
-    // this.msgReceived,
-    // this.msgSending,
+    { id: null, type: 'joinleave', isJoin: false } as JoinLeaveItem,
   ];
 
   constructor(private service: AppService, private router: Router) {
@@ -80,7 +55,7 @@ export class ChatComponent implements OnInit {
       if (msg !== '' && msg[0] !== '#') {
         const obj = { id: 'necessary', type: 'message', msg: newMsg, sent: sentVar, nonce: 'blah', sentByMe: receiveVar };
         this.chatItemList.push(obj);
-        this.service.sendMessage(someRoomId, obj.msg, obj.nonce)
+        this.service.sendMessage(obj.msg, obj.nonce)
       }
     }
   }
@@ -90,16 +65,32 @@ export class ChatComponent implements OnInit {
     // this.dummySendMsg(msg);
     // return; // todo remove these lines to use the API
 
-    const nonce = generateNonce();
-    const dummy: MsgItem = { msg, sent: false, nonce, sentByMe: true, id: null, type: 'message' };
-    this.chatItemList.push(dummy);
-    this.service.sendMessage(msg, nonce)
-      .subscribe(result => {
-        if (result.success) {
-          dummy.id = result.data._id;
-          dummy.sent = true;
-        }
-      });
+    // Uncomment these lines to simulate joining and leaving a chat manually
+    if (msg[0] === '#') {
+      if (this.roomStatus) {
+        this.roomStatus = !this.roomStatus;
+        this.chatItemList = [];
+        this.chatItemList.push({ type: 'joinleave', isJoin: false, disconnected: true } as JoinLeaveItem);
+      } else {
+        msg = msg.substring(1);
+        this.roomStatus = !this.roomStatus;
+        this.chatItemList.push({ type: 'joinleave', isJoin: this.roomStatus } as JoinLeaveItem);
+      }
+    }
+
+    if (this.roomStatus && msg !== '') {
+      const nonce = generateNonce();
+      const dummy: MsgItem = { msg, sent: false, nonce, sentByMe: true, id: null, type: 'message' };
+      this.chatItemList.push(dummy);
+      this.service.sendMessage(msg, nonce)
+        .subscribe(result => {
+          if (result.success) {
+            dummy.id = result.data._id;
+            dummy.sent = true;
+          }
+        });
+
+    }
   }
 
   leaveChat() {
@@ -123,10 +114,13 @@ export class ChatComponent implements OnInit {
   }
 
   onUserConnected() {
-    this.chatItemList.push({ type: 'joinleave', isJoin: true } as JoinLeaveItem);
+    this.roomStatus = true;
+    this.chatItemList.push({ type: 'joinleave', isJoin: true, disconnected: false } as JoinLeaveItem);
   }
 
   onUserDisconnected() {
-    this.chatItemList.push({ type: 'joinleave', isJoin: false } as JoinLeaveItem);
+    this.roomStatus = false;
+    this.chatItemList = [];
+    this.chatItemList.push({ type: 'joinleave', isJoin: false, disconnected: true } as JoinLeaveItem);
   }
 }
