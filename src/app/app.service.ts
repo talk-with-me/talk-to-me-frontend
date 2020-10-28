@@ -123,9 +123,6 @@ export class AppService {
 
   // ==== helpers ====
   ensureAuth(): void {
-    if (this.clientSecret) {  // don't do anything if we already have auth
-      return;
-    }
     this.refreshAuth().subscribe(_ => {
       console.log(`clientId: ${this.clientId}`);
       console.log(`clientSecret: ${this.clientSecret}`);
