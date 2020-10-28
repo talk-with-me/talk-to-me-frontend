@@ -3,7 +3,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 @Component({
   selector: 'ttm-send-chat',
   template: `
-    <input #inputElementRef placeholder="Type something..." (keyup.enter)="submitValue($event.target.value)">
+    <input #inputElementRef placeholder="Type something..." (keyup.enter)="submitValue($event.target.value); $event.target.value = ''">
   `,
   styleUrls: ['./send-chat.component.scss']
 })
