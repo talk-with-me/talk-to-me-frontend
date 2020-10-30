@@ -16,10 +16,10 @@ export class JoinLeaveComponent implements OnInit {
 
   ngOnInit() {
     if (this.item.isJoin) {
-      this.showMessage = 'Connected to another person'
+      this.showMessage = 'Connected to another person';
     }
     if (this.item.disconnected) {
-      this.showMessage = 'Disconnected from other person, please click home to chat again!'
+      this.showMessage = 'Disconnected from other person, please click home to chat again!';
     }
   }
 

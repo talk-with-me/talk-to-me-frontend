@@ -55,7 +55,7 @@ export class ChatComponent implements OnInit {
       if (msg !== '' && msg[0] !== '#') {
         const obj = { id: 'necessary', type: 'message', msg: newMsg, sent: sentVar, nonce: 'blah', sentByMe: receiveVar };
         this.chatItemList.push(obj);
-        this.service.sendMessage(obj.msg, obj.nonce)
+        this.service.sendMessage(obj.msg, obj.nonce);
       }
     }
   }
