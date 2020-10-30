@@ -22,3 +22,8 @@ export interface Message {
   content: string;
   timestamp: string;  // iso8601
 }
+
+export interface MessageLikedEvent {
+  message_id: string;
+  user_id: string;
+}

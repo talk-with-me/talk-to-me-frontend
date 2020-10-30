@@ -4,7 +4,7 @@ import {Socket} from 'ngx-socket-io';
 import {Observable, of, Subject} from 'rxjs';
 import {environment} from '../environments/environment';
 import {catchError, map} from 'rxjs/operators';
-import {ApiResponse, Message, QueueCompleteEvent, User} from './schemas/api';
+import {ApiResponse, Message, MessageLikedEvent, QueueCompleteEvent, User} from './schemas/api';
 
 
 export type QueueType = 'vent' | 'listen' | 'talk';
@@ -19,6 +19,7 @@ export class AppService {
   public userConnectedEmitter = new Subject();
   public userDisconnectedEmitter = new Subject();
   public messageEmitter = new Subject<Message>();
+  public likeEmitter = new Subject<MessageLikedEvent>();
 
   public clientId: string;
   clientSecret: string;
@@ -28,6 +29,7 @@ export class AppService {
     this.socket.on('user_connected', () => this.onUserConnected());
     this.socket.on('user_disconnected', () => this.onUserDisconnected());
     this.socket.on('send_message_to_client', (arg) => this.onMessage(arg));
+    this.socket.on('message_liked', (arg) => this.onMessageLiked(arg));
   }
 
   // ==== HTTP ====
@@ -65,12 +67,26 @@ export class AppService {
    * @param content The content of the message
    * @param nonce A nonce to verify delivery
    *
-   * POST /:roomId/messages
+   * POST /messages
    * {content: string, nonce: string}
    */
   sendMessage(content: string, nonce: string): Observable<ApiResponse<Message>> {
     return this.http.post<ApiResponse<Message>>(`${environment.apiUrl}/messages`,
       {secret: this.clientSecret, message: content, nonce})
+      .pipe(catchError(this.defaultErrorHandler));
+  }
+
+  /**
+   * Likes a message.
+   *
+   * @param messageId The ID of the message to like
+   *
+   * POST /likes
+   * {secret: string, message_id: string}
+   */
+  likeMessage(messageId: string): Observable<ApiResponse<any>> {  // todo what is the response type
+    return this.http.post<ApiResponse<any>>(`${environment.apiUrl}/likes`,
+      {secret: this.clientSecret, message_id: messageId})
       .pipe(catchError(this.defaultErrorHandler));
   }
 
@@ -84,7 +100,6 @@ export class AppService {
 
   /**
    * Leaves a chat room by ID.
-   * DELETE /:roomId/me
    */
   leaveRoom(): Observable<ApiResponse<string>> {
     return this.socket.emit('leave_room', this.clientSecret);
@@ -119,6 +134,11 @@ export class AppService {
   onMessage(message: Message) {
     console.log(message);
     this.messageEmitter.next(message);
+  }
+
+  onMessageLiked(event: MessageLikedEvent) {
+    console.log(event);
+    this.likeEmitter.next(event);
   }
 
   // ==== helpers ====
