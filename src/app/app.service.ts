@@ -79,6 +79,7 @@ export class AppService {
    * Joins a chat room by ID (given by server).
    */
   joinRoom() {
+    console.log('sending join_room');
     return this.socket.emit('join_room', this.clientSecret);
   }
 
@@ -87,6 +88,7 @@ export class AppService {
    * DELETE /:roomId/me
    */
   leaveRoom(): Observable<ApiResponse<string>> {
+    console.log('sending leave_room');
     return this.socket.emit('leave_room', this.clientSecret);
   }
 
@@ -96,6 +98,8 @@ export class AppService {
    * Handles the queue_complete socket event.
    */
   onQueueComplete(event: QueueCompleteEvent) {
+    console.log('received queue_complete');
+    console.log(event);
     this.queueCompleteEmitter.next(event);
   }
 
@@ -103,6 +107,7 @@ export class AppService {
    * Handles the user_connected socket event.
    */
   onUserConnected() {
+    console.log('received user connected');
     this.userConnectedEmitter.next();
   }
 
@@ -110,6 +115,7 @@ export class AppService {
    * Handles the user_disconnected socket event.
    */
   onUserDisconnected() {
+    console.log('received user disconnected');
     this.userDisconnectedEmitter.next();
   }
 
