@@ -43,6 +43,7 @@ export class AppService {
         if (response.success) {
           this.clientId = response.data.userID;
           this.clientSecret = response.data.secret;
+          this.hello();
         }
         return response;
       }));
@@ -75,6 +76,13 @@ export class AppService {
   }
 
   // ==== Socket Send ====
+  /**
+   * Sends a HELLO packet to the server for the backend to associate a socket with a user.
+   */
+  hello() {
+    return this.socket.emit('hello', this.clientSecret);
+  }
+
   /**
    * Joins a chat room by ID (given by server).
    */
