@@ -47,6 +47,31 @@
     float: left;
 }
 
+.their_message_wrap .hover_like {
+    display: none;
+}
+
+.their_message_wrap ttm-msg-item:hover + .hover_like {
+    display: block;
+    opacity: 0.5;
+}
+
+img {
+    margin-top: 10px;
+}
+
+.my_message_wrap {
+    clear: both;
+    float: right;
+    max-width: 410px;
+}
+
+.their_message_wrap {
+    clear: both;
+    float: left;
+    max-width: 410px;
+}
+
 .join_leave {
     color: #333;
     width: 80%;
@@ -115,10 +140,7 @@ ttm-send-chat{
 ::-webkit-scrollbar {
     width: 5px;
     overflow-anchor: none;
-}
-
-::-webkit-scrollbar-track {
-    background: 888; 
+    background: transparent; 
 }
 
 ::-webkit-scrollbar-thumb {
