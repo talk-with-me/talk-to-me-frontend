@@ -80,7 +80,7 @@ export class ChatComponent implements OnInit {
 
     if (this.roomStatus && msg !== '') {
       const nonce = generateNonce();
-      const dummy: MsgItem = { msg, sent: false, nonce, sentByMe: true, id: null, type: 'message' };
+      const dummy: MsgItem = { msg, sent: false, nonce, sentByMe: true, id: null, type: 'message', liked: false };
       this.chatItemList.push(dummy);
       this.service.sendMessage(msg, nonce)
         .subscribe(result => {
