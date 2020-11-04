@@ -1,1 +1,26 @@
-<p>chat works!</p>
+<ul class="menu">
+    <li class="menu_buttons"><a (click)="leaveChat()">Home</a></li>
+    <li class="menu_buttons"><a>Report</a></li>
+</ul>
+<div class='entire_chat'>
+    <div class="chat">
+        <ul>
+            <li *ngFor="let chatItem of chatItemList">
+                <div class="all_chat_wrap" [ngSwitch]="chatItem.type">
+                    <div class="chat_wrap" *ngSwitchCase="'message'" [ngSwitch]="chatItem.sentByMe">
+                        <div *ngSwitchCase="true" [ngSwitch]="chatItem.sent">
+                            <ttm-msg-item class="sent_by_me" *ngSwitchCase="true" [item]="chatItem"></ttm-msg-item>
+                            <ttm-msg-item class="sent_by_me" style="opacity: 0.5;" *ngSwitchCase="false" [item]="chatItem"></ttm-msg-item>
+                        </div>
+                        <ttm-msg-item class="sent_by_them" *ngSwitchCase="false" [item]="chatItem"></ttm-msg-item>
+                        <p *ngSwitchDefault>this is an error</p>
+                    </div>
+                    <ttm-join-leave class="join_leave" *ngSwitchCase="'joinleave'" [item]="chatItem"></ttm-join-leave>
+                    <p *ngSwitchDefault>this is an error</p>
+                </div>
+            </li>
+        </ul>
+
+        <ttm-send-chat (submit)="sendMsg($event)"></ttm-send-chat>
+    </div>
+</div>
