@@ -45,6 +45,7 @@
     overflow-wrap: break-word;
     clear: both;
     float: left;
+    cursor: pointer;
 }
 
 .their_message_wrap .hover_like {
@@ -126,6 +127,7 @@ ttm-send-chat{
     border: 1px solid;
     box-shadow: 2px 2px #222;
     font-family: Arial, Helvetica, sans-serif;
+    cursor: pointer;
 }
 
 .menu_buttons a:visited {
