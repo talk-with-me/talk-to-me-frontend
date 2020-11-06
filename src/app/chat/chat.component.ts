@@ -3,7 +3,7 @@ import { AppService } from '../app.service';
 import { generateNonce } from '../utils/random';
 import { Router } from '@angular/router';
 import { ChatItem, JoinLeaveItem, MsgItem } from './chat-items';
-import { Message, QueueCompleteEvent } from '../schemas/api';
+import {Message, MessageLikedEvent, QueueCompleteEvent} from '../schemas/api';
 
 
 @Component({
@@ -25,6 +25,7 @@ export class ChatComponent implements OnInit {
     this.service.messageEmitter.subscribe(msg => this.onMessage(msg));
     this.service.userConnectedEmitter.subscribe(_ => this.onUserConnected());
     this.service.userDisconnectedEmitter.subscribe(_ => this.onUserDisconnected());
+    this.service.likeEmitter.subscribe(event => this.onMessageLiked(event));
   }
 
   ngOnInit() {
@@ -93,6 +94,22 @@ export class ChatComponent implements OnInit {
     }
   }
 
+  likeMsg(messageId: string) {
+    const existing = this.findMessage((msg) => msg.id === messageId);
+    if (!existing) {
+      console.warn('could not find message to like');
+      return;
+    }
+    existing.liked = true;
+    this.service.likeMessage(messageId)
+      .subscribe(response => {
+        if (!response.success) {
+          console.warn(`failed to like message ${messageId}: ${response.error}`);
+          existing.liked = false;
+        }
+      });
+  }
+
   leaveChat() {
     this.service.leaveRoom();
     this.router.navigate(['/landing']);
@@ -106,7 +123,7 @@ export class ChatComponent implements OnInit {
   }
 
   onMessage(incoming: Message) {
-    const existing = this.chatItemList.find((msg: MsgItem) => msg.type === 'message' && msg.nonce === incoming.nonce);
+    const existing = this.findMessage((msg) => msg.nonce === incoming.nonce);
     const newMessage = MsgItem.fromApiEvent(incoming);
     if (!existing) {
       this.chatItemList.push(newMessage); // transform object?
@@ -122,5 +139,19 @@ export class ChatComponent implements OnInit {
     this.roomStatus = false;
     this.chatItemList = [];
     this.chatItemList.push({ type: 'joinleave', isJoin: false, disconnected: true } as JoinLeaveItem);
+  }
+
+  onMessageLiked(event: MessageLikedEvent) {
+    const existing = this.findMessage((msg) => msg.id === event.message_id);
+    if (!existing) {
+      return;
+    }
+    existing.liked = true;
+    console.log(`found liked message ${existing.id}`);
+  }
+
+  // helpers
+  findMessage(predicate: (msg: MsgItem) => boolean): MsgItem {
+    return this.chatItemList.find((msg: MsgItem) => msg.type === 'message' && predicate(msg)) as MsgItem;
   }
 }
