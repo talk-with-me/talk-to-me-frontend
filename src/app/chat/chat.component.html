@@ -25,7 +25,7 @@
                                 <ttm-msg-item class="sent_by_them" [item]="chatItem"></ttm-msg-item>
                                 <img src="../../assets/like.png" alt="Liked">
                             </div>
-                            <div class="their_message_wrap" *ngSwitchCase="false">
+                            <div class="their_message_wrap" *ngSwitchCase="false" (click)="likeMsg(chatItem.id)">
                                 <ttm-msg-item class="sent_by_them" [item]="chatItem"></ttm-msg-item>
                                 <img class="hover_like" src="../../assets/like.png" alt="Liked">
                             </div>
