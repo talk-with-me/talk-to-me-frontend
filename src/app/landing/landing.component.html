@@ -1,0 +1,21 @@
+<div class='full_landing' [ngSwitch]="seenPopup">   
+    <div *ngSwitchCase="false" class="popup">
+        <h2>Statement of Purpose</h2>
+        <p>Hello!</p>
+        <p>Welcome to Talk to Me. This website allows you to talk with other people completely anonymously with the purpose to interact with other people and voice what's on your mind.</p>
+        <p>People are here to either help themselves, or help other people. We ask that you please respect this and treat others kindly and with an open heart.</p>
+        <p>We hope you enjoy your time here.</p>
+        <p>Thank you</p>
+        <ul class='popup_buttons'>
+            <li><b (click)="closePopup(false)">Close</b></li>
+            <li><b (click)="closePopup(true)">Do not show again</b></li>
+        </ul>
+    </div>
+    <div *ngSwitchCase="true" class="landing_buttons">
+        <ul class='nav_buttons'>
+            <li><a (click)="joinQueue('vent')">Be Heard</a></li>
+            <li><a (click)="joinQueue('listen')">Listen</a></li>
+            <li><a (click)="joinQueue('talk')">Talk</a></li>
+        </ul>
+    </div>
+</div>

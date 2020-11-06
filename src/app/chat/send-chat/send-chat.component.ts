@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import {Component, OnInit, Output, EventEmitter} from '@angular/core';
 
 @Component({
   selector: 'ttm-send-chat',
@@ -8,12 +8,14 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./send-chat.component.scss']
 })
 export class SendChatComponent implements OnInit {
-  constructor() { }
+  // tslint:disable-next-line:no-output-native
+  @Output() submit: EventEmitter<string> = new EventEmitter();
 
-  ngOnInit() { }
+  constructor() {
+  }
 
-  @Output() submit: EventEmitter<String> = new EventEmitter();
-  title = 'default chat';
+  ngOnInit() {
+  }
 
   submitValue(msg: string) {
     this.submit.emit(msg);

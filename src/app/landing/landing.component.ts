@@ -1,22 +1,17 @@
 import {Component, OnInit} from '@angular/core';
 import {AppService, QueueType} from '../app.service';
 import {Router} from '@angular/router';
+import {hasSeenPopup, rememberSeenPopup} from '../utils/popupUtils';
 
 
 @Component({
   selector: 'ttm-landing',
-  template: `
-    <div class="landing_buttons">
-      <ul>
-        <!-- <li><a (click)="joinQueue('vent')">Be Heard</a></li> -->
-        <!-- <li><a (click)="joinQueue('listen')">Listen</a></li> -->
-        <li><a (click)="joinQueue('talk')">Talk</a></li>
-      </ul>
-    </div>
-  `,
+  templateUrl: 'landing.component.html',
   styleUrls: ['./landing.component.scss']
 })
 export class LandingComponent implements OnInit {
+
+  seenPopup = false;
 
   constructor(private service: AppService, private router: Router) {
 
@@ -24,9 +19,21 @@ export class LandingComponent implements OnInit {
 
   ngOnInit() {
     this.service.ensureAuth();
+    if (hasSeenPopup()) {
+      this.seenPopup = true;
+    } else {
+      this.seenPopup = false;
+    }
   }
 
   // actions
+  closePopup(dontShow: boolean) {
+    this.seenPopup = true;
+    if (dontShow) {
+      rememberSeenPopup();
+    }
+  }
+
   joinQueue(queueType: QueueType) {
     this.service.enterQueue(queueType)
       .subscribe(result => {
