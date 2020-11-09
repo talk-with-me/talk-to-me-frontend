@@ -67,17 +67,17 @@ export class ChatComponent implements OnInit {
     // return; // todo remove these lines to use the API
 
     // Uncomment these lines to simulate joining and leaving a chat manually
-    if (msg[0] === '#') {
-      if (this.roomStatus) {
-        this.roomStatus = !this.roomStatus;
-        this.chatItemList = [];
-        this.chatItemList.push({ type: 'joinleave', isJoin: false, disconnected: true } as JoinLeaveItem);
-      } else {
-        msg = msg.substring(1);
-        this.roomStatus = !this.roomStatus;
-        this.chatItemList.push({ type: 'joinleave', isJoin: this.roomStatus } as JoinLeaveItem);
-      }
-    }
+    // if (msg[0] === '#') {
+    //   if (this.roomStatus) {
+    //     this.roomStatus = !this.roomStatus;
+    //     this.chatItemList = [];
+    //     this.chatItemList.push({ type: 'joinleave', isJoin: false, disconnected: true } as JoinLeaveItem);
+    //   } else {
+    //     msg = msg.substring(1);
+    //     this.roomStatus = !this.roomStatus;
+    //     this.chatItemList.push({ type: 'joinleave', isJoin: this.roomStatus } as JoinLeaveItem);
+    //   }
+    // }
 
     if (this.roomStatus && msg !== '') {
       const nonce = generateNonce();
