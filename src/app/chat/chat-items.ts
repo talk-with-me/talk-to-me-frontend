@@ -12,7 +12,7 @@ export class MsgItem implements ChatItem {
   sent: boolean;
   nonce: string;
   sentByMe: boolean;
-  liked?: boolean;
+  liked: boolean;
 
   constructor(id: string, msg: string, sent: boolean, nonce: string, sentByMe: boolean, liked: boolean = false) {
     this.id = id;

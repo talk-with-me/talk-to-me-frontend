@@ -1,6 +1,4 @@
-import { StringMap } from '@angular/compiler/src/compiler_facade_interface';
-
-const TTM_HAS_SEEN_POPUP_KEY = 'false';
+const TTM_HAS_SEEN_POPUP_KEY = 'ttm-has-seen-popup';
 
 export function hasSeenPopup(): string {
   return localStorage.getItem(TTM_HAS_SEEN_POPUP_KEY);
