@@ -100,13 +100,6 @@ export class AppService {
   }
 
   /**
-   * Sends a HELLO packet to the server for the backend to associate a socket with a user.
-   */
-  hello() {
-    return this.socket.emit('hello', this.clientSecret);
-  }
-
-  /**
    * Joins a chat room by ID (given by server).
    */
   joinRoom() {
