@@ -11,6 +11,7 @@ import {MsgItemComponent} from './chat/msg-item/msg-item.component';
 import {SendChatComponent} from './chat/send-chat/send-chat.component';
 import {JoinLeaveComponent} from './chat/join-leave/join-leave.component';
 import {HttpClientModule} from '@angular/common/http';
+import {ReportComponent} from './report/report.component';
 
 const socketIoConfig: SocketIoConfig = {url: environment.apiUrl, options: {}};
 
@@ -21,7 +22,8 @@ const socketIoConfig: SocketIoConfig = {url: environment.apiUrl, options: {}};
     ChatComponent,
     MsgItemComponent,
     SendChatComponent,
-    JoinLeaveComponent
+    JoinLeaveComponent,
+    ReportComponent
   ],
   imports: [
     BrowserModule,

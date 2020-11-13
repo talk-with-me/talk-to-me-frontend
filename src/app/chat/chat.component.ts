@@ -115,6 +115,11 @@ export class ChatComponent implements OnInit {
     this.router.navigate(['/landing']);
   }
 
+  report() {
+    // this.service.report();
+    this.router.navigate(['/report']);
+  }
+
   // event handlers
   onQueueComplete(event: QueueCompleteEvent) {
     if (event.user_id === this.service.clientId) {
