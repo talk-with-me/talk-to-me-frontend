@@ -142,7 +142,6 @@ export class ChatComponent implements OnInit {
 
   onUserDisconnected() {
     this.roomStatus = false;
-    this.chatItemList = [];
     this.chatItemList.push({ type: 'joinleave', isJoin: false, disconnected: true } as JoinLeaveItem);
   }
 
