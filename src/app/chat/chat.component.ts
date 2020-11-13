@@ -116,7 +116,6 @@ export class ChatComponent implements OnInit {
   }
 
   report() {
-    // this.service.report();
     this.router.navigate(['/report']);
   }
 

@@ -1,0 +1,39 @@
+.report_window {
+    text-align: center;
+    margin: 5% 25% 0% 25%;
+    background-color: #888;
+    border-radius: 5px;
+    border: 1px solid;
+    box-shadow: 3px 3px #222;
+}
+
+.report_buttons {
+    list-style-type: none;
+    margin-top: 20px;
+    padding: 0;
+}
+
+li b {
+    display: block;
+    text-align: center;
+    padding: 5px;
+    text-decoration: none;
+    margin: 0% 35% 10px 35%;
+    background-color: #999;
+    border-radius: 4px;
+    border: 1px solid;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    box-shadow: 2px 2px #222;
+    cursor: pointer;
+}
+
+input {
+    border: 1px;
+    border-style: solid;
+    border-radius: 10px;
+    padding-left: 10px;
+    width: 90%;
+    height: 25px;
+    background-color: #999;
+}
