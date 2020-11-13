@@ -14,6 +14,7 @@ import {Message, MessageLikedEvent, QueueCompleteEvent} from '../schemas/api';
 export class ChatComponent implements OnInit {
 
   roomStatus = false;
+  showReportUI = false;
 
   chatItemList: ChatItem[] = [
     { id: null, type: 'joinleave', isJoin: false } as JoinLeaveItem,
@@ -116,7 +117,7 @@ export class ChatComponent implements OnInit {
   }
 
   report() {
-    this.router.navigate(['/report']);
+    this.showReportUI = !this.showReportUI;
   }
 
   // event handlers

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppService } from '../app.service';
 
@@ -8,6 +8,7 @@ import { AppService } from '../app.service';
   styleUrls: ['./report.component.scss']
 })
 export class ReportComponent implements OnInit {
+  @Output() reportClosed: EventEmitter<any> = new EventEmitter<any>();
 
   reportSubmitted = false;
 
@@ -17,7 +18,7 @@ export class ReportComponent implements OnInit {
   }
 
   closeReport(closeReport: boolean) {
-    this.router.navigate(['/chat']);
+    this.reportClosed.emit(true);
   }
 
   submitReport(reportText: string) {
