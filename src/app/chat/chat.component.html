@@ -4,40 +4,41 @@
 </ul>
 <div class='entire_chat'>
     <div class="chat">
-        <ul>
-            <li *ngFor="let chatItem of chatItemList">
-                <div class="all_chat_wrap" [ngSwitch]="chatItem.type">
-                    <div class="chat_wrap" *ngSwitchCase="'message'" [ngSwitch]="chatItem.sentByMe">
-                        <div class="my_message_wrap" *ngSwitchCase="true" [ngSwitch]="chatItem.sent">
-                            <div *ngSwitchCase="true" [ngSwitch]="chatItem.liked">
-                                <div *ngSwitchCase="true">
+        <div class="messages">
+            <ul>
+                <li *ngFor="let chatItem of chatItemList">
+                    <div class="all_chat_wrap" [ngSwitch]="chatItem.type">
+                        <div class="chat_wrap" *ngSwitchCase="'message'" [ngSwitch]="chatItem.sentByMe">
+                            <div class="my_message_wrap" *ngSwitchCase="true" [ngSwitch]="chatItem.sent">
+                                <div *ngSwitchCase="true" [ngSwitch]="chatItem.liked">
+                                    <div *ngSwitchCase="true">
+                                        <img src="../../assets/like.png" alt="Liked">
+                                        <ttm-msg-item class="sent_by_me" [item]="chatItem"></ttm-msg-item>
+                                    </div>
+                                    <div *ngSwitchCase="false">
+                                        <ttm-msg-item class="sent_by_me" [item]="chatItem"></ttm-msg-item>
+                                    </div>
+                                </div>
+                                <ttm-msg-item class="sent_by_me" style="opacity: 0.5;" *ngSwitchCase="false" [item]="chatItem"></ttm-msg-item>
+                            </div>
+                            <div *ngSwitchCase="false" [ngSwitch]="chatItem.liked">
+                                <div class="their_message_wrap" *ngSwitchCase="true">
+                                    <ttm-msg-item class="sent_by_them" [item]="chatItem"></ttm-msg-item>
                                     <img src="../../assets/like.png" alt="Liked">
-                                    <ttm-msg-item class="sent_by_me" [item]="chatItem"></ttm-msg-item>
                                 </div>
-                                <div *ngSwitchCase="false">
-                                    <ttm-msg-item class="sent_by_me" [item]="chatItem"></ttm-msg-item>
+                                <div class="their_message_wrap" *ngSwitchCase="false" (click)="likeMsg(chatItem.id)">
+                                    <ttm-msg-item class="sent_by_them" [item]="chatItem"></ttm-msg-item>
+                                    <img class="hover_like" src="../../assets/like.png" alt="Liked">
                                 </div>
                             </div>
-                            <ttm-msg-item class="sent_by_me" style="opacity: 0.5;" *ngSwitchCase="false" [item]="chatItem"></ttm-msg-item>
+                            <p *ngSwitchDefault>this is an error</p>
                         </div>
-                        <div *ngSwitchCase="false" [ngSwitch]="chatItem.liked">
-                            <div class="their_message_wrap" *ngSwitchCase="true">
-                                <ttm-msg-item class="sent_by_them" [item]="chatItem"></ttm-msg-item>
-                                <img src="../../assets/like.png" alt="Liked">
-                            </div>
-                            <div class="their_message_wrap" *ngSwitchCase="false" (click)="likeMsg(chatItem.id)">
-                                <ttm-msg-item class="sent_by_them" [item]="chatItem"></ttm-msg-item>
-                                <img class="hover_like" src="../../assets/like.png" alt="Liked">
-                            </div>
-                        </div>
+                        <ttm-join-leave class="join_leave" *ngSwitchCase="'joinleave'" [item]="chatItem"></ttm-join-leave>
                         <p *ngSwitchDefault>this is an error</p>
                     </div>
-                    <ttm-join-leave class="join_leave" *ngSwitchCase="'joinleave'" [item]="chatItem"></ttm-join-leave>
-                    <p *ngSwitchDefault>this is an error</p>
-                </div>
-            </li>
-        </ul>
-
+                </li>
+            </ul>
+        </div>
         <ttm-send-chat (submit)="sendMsg($event)"></ttm-send-chat>
     </div>
 </div>
