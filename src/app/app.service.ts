@@ -43,7 +43,7 @@ export class AppService {
       .pipe(catchError(this.defaultErrorHandler))
       .pipe(map(response => {
         if (response.success) {
-          this.clientId = response.data.userID;
+          this.clientId = response.data.user_id;
           this.clientSecret = response.data.secret;
           this.hello();
         }
