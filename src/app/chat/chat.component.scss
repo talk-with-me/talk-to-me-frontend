@@ -13,7 +13,7 @@
     border-radius: 10px;
     box-shadow: 5px 5px #222;
     background-color: #999;
-    min-width: 450px;
+    width: min(100%, 450px);
     font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -25,7 +25,7 @@
     padding: 5px 10px;
     margin-top: 10px;
     box-shadow: 2px 2px #222;
-    max-width: 350px;
+    max-width: calc(100% - 60px);
     overflow-wrap: break-word;
     background-color: teal;
     clear: both;
@@ -42,7 +42,7 @@
     margin-top: 10px;
     margin-right: 2px;
     box-shadow: 2px 2px #222;
-    max-width: 350px;
+    max-width: calc(100% - 60px);
     overflow-wrap: break-word;
     clear: both;
     float: left;
@@ -65,13 +65,13 @@ img {
 .my_message_wrap {
     clear: both;
     float: right;
-    max-width: 410px;
+    max-width: min(calc(90vw - 40px), 410px);
 }
 
 .their_message_wrap {
     clear: both;
     float: left;
-    max-width: 410px;
+    max-width: min(calc(90vw - 40px), 410px);
 }
 
 .join_leave {
@@ -90,7 +90,7 @@ img {
     overflow: auto;
     flex-direction: column-reverse;
     overflow-y: scroll;
-    max-height: 550px;
+    max-height: min(calc(80vh - 85px), 550px);
     margin-right: 5px;
     padding-bottom: 5px;
     margin-top: 22px;

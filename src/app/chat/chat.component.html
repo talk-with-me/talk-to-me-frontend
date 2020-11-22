@@ -2,13 +2,13 @@
     <li class="menu_buttons"><a (click)="leaveChat()">Home</a></li>
     <li class="menu_buttons"><a>Report</a></li>
 </ul>
-<div class='entire_chat'>
+<div class="entire_chat">
     <div class="chat">
         <div class="messages">
             <ul>
                 <li *ngFor="let chatItem of chatItemList">
-                    <div class="all_chat_wrap" [ngSwitch]="chatItem.type">
-                        <div class="chat_wrap" *ngSwitchCase="'message'" [ngSwitch]="chatItem.sentByMe">
+                    <div [ngSwitch]="chatItem.type">
+                        <div *ngSwitchCase="'message'" [ngSwitch]="chatItem.sentByMe">
                             <div class="my_message_wrap" *ngSwitchCase="true" [ngSwitch]="chatItem.sent">
                                 <div *ngSwitchCase="true" [ngSwitch]="chatItem.liked">
                                     <div *ngSwitchCase="true">
