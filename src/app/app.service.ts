@@ -43,7 +43,7 @@ export class AppService {
       .pipe(catchError(this.defaultErrorHandler))
       .pipe(map(response => {
         if (response.success) {
-          this.clientId = response.data.userID;
+          this.clientId = response.data.user_id;
           this.clientSecret = response.data.secret;
           this.hello();
         }
@@ -85,9 +85,23 @@ export class AppService {
    * POST /likes
    * {secret: string, message_id: string}
    */
-  likeMessage(messageId: string): Observable<ApiResponse<any>> {  // todo what is the response type
+  likeMessage(messageId: string): Observable<ApiResponse<any>> {
     return this.http.post<ApiResponse<any>>(`${environment.apiUrl}/likes`,
       {secret: this.clientSecret, message_id: messageId})
+      .pipe(catchError(this.defaultErrorHandler));
+  }
+
+  /**
+   * Reports the current conversation the user is a part of.
+   *
+   * @param reason What the report is for
+   *
+   * POST /reports
+   * {secret: string, reason: string}
+   */
+  reportConversation(reason: string): Observable<ApiResponse<any>> {  // todo response type
+    return this.http.post<ApiResponse<any>>(`${environment.apiUrl}/reports`,
+      {secret: this.clientSecret, reason})
       .pipe(catchError(this.defaultErrorHandler));
   }
 
