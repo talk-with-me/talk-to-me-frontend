@@ -25,7 +25,7 @@
     padding: 5px 10px;
     margin-top: 10px;
     box-shadow: 2px 2px #222;
-    max-width: calc(100% - 60px);
+    max-width: min(calc(80vw - 60px), 350px);
     overflow-wrap: break-word;
     background-color: teal;
     clear: both;
@@ -42,7 +42,7 @@
     margin-top: 10px;
     margin-right: 2px;
     box-shadow: 2px 2px #222;
-    max-width: calc(100% - 60px);
+    max-width: min(calc(80vw - 60px), 350px);
     overflow-wrap: break-word;
     clear: both;
     float: left;
@@ -65,13 +65,13 @@ img {
 .my_message_wrap {
     clear: both;
     float: right;
-    max-width: min(calc(90vw - 40px), 410px);
+    max-width: min(calc(100vw - 40px), 410px);
 }
 
 .their_message_wrap {
     clear: both;
     float: left;
-    max-width: min(calc(90vw - 40px), 410px);
+    max-width: min(calc(100vw - 40px), 410px);
 }
 
 .join_leave {
