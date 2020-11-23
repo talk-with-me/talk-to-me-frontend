@@ -11,3 +11,21 @@ input {
 ::placeholder {
     color: #222;
 }
+
+a {
+    text-align: center;
+    border: 1px solid;
+    border-color: black;
+    border-radius: 10px;
+    height: 27px;
+    width: 50px;
+    line-height: 27px;
+    font-size: 14px;
+    text-align: center;
+    background-color: #888;
+    cursor: pointer;
+}
+
+a:hover{
+    background-color: #777;
+}

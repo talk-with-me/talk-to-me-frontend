@@ -7,17 +7,6 @@
     box-shadow: 3px 3px #222;
 }
 
-p {
-    padding-left: 10px;
-    padding-right: 10px;
-}
-
-.popup_buttons {
-    list-style-type: none;
-    margin-top: 20px;
-    padding: 0;
-}
-
 li b {
     display: block;
     text-align: center;
@@ -31,6 +20,43 @@ li b {
     font-size: 15px;
     box-shadow: 2px 2px #222;
     cursor: pointer;
+}
+
+@media screen and (max-width: 450px) {    
+    .popup {
+        text-align: center;
+        margin: 5% 5% 0% 5%;
+        background-color: #888;
+        border-radius: 5px;
+        border: 1px solid;
+        box-shadow: 3px 3px #222;
+    }
+
+    li b {
+        display: block;
+        text-align: center;
+        padding: 5px;
+        text-decoration: none;
+        margin: 0% 25% 10px 25%;
+        background-color: #999;
+        border-radius: 4px;
+        border: 1px solid;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 15px;
+        box-shadow: 2px 2px #222;
+        cursor: pointer;
+    }
+}
+
+p {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.popup_buttons {
+    list-style-type: none;
+    margin-top: 20px;
+    padding: 0;
 }
 
 li b:visited {
