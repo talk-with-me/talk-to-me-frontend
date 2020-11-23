@@ -22,7 +22,7 @@ export class ReportComponent implements OnInit {
   }
 
   submitReport(reportText: string) {
-    if (!this.reportSubmitted && reportText != '') {
+    if (!this.reportSubmitted && reportText !== '') {
       this.reportSubmitted = true;
       this.service.reportConversation(reportText)
       .subscribe(response => {
