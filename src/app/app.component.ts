@@ -1,21 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'ttm-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'talk-to-me-frontend';
-  imgURL: string;
+  imgUrl: string;
 
   ngOnInit() {
-    this.imgURL = this.getImgURL();
+    this.imgUrl = this.getImgURL();
   }
 
   getImgURL() {
-    let random_num = this.getRandom();
-    return `https://picsum.photos/1920/1080?random=${random_num}`
+    const randomNum = this.getRandom();
+    return `https://picsum.photos/1920/1080?random=${randomNum}`;
   }
 
   getRandom() {
