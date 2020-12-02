@@ -18,26 +18,26 @@ export class AdminComponent implements OnInit {
   ngOnInit() {
   }
 
-  attemptLogin(password: string){
+  attemptLogin(password: string) {
     this.service.doAdminAuth(password);
     this.loginSuccessful = this.service.isAuthed();
     this.loginSuccessful = true;
-    this.currentView = "admin_buttons";
+    this.currentView = 'admin_buttons';
   }
 
-  viewReports(){
+  viewReports() {
     console.log('viewing reports');
-    this.currentView = "reports";
+    this.currentView = 'reports';
   }
 
-  viewReportedMessages(){
+  viewReportedMessages() {
     console.log('viewing reported messages');
-    this.currentView = "reported_messages";
+    this.currentView = 'reported_messages';
   }
 
-  viewBans(){
+  viewBans() {
     console.log('viewing bans');
-    this.currentView = "bans";
+    this.currentView = 'bans';
   }
 
 }
