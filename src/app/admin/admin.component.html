@@ -1,0 +1,38 @@
+<div [ngSwitch]="loginSuccessful">
+    <div *ngSwitchCase="true" [ngSwitch]="currentView" class="admin_main">
+        <div *ngSwitchCase="'admin_buttons'" class='admin_buttons'>
+            <ul class='buttons'>
+                <li><a (click)="viewReports()">View reports</a></li>
+                <li><a (click)="viewReportedMessages()">View reported messages</a></li>
+                <li><a (click)="viewBans()">View bans</a></li>
+            </ul>
+        </div>
+        <div *ngSwitchCase="'reports'" class='reports'>
+            <p>reports here</p>
+            <!-- <ul>
+                <li *ngFor="let report of reportsList">
+                </li>
+            </ul> -->
+        </div>
+        <div *ngSwitchCase="'reported_messages'" class='reported_messages'>
+            <p>reported messages here</p>
+            <!-- <ul>
+                <li *ngFor="let reportedMsg of reportedMsgList">
+                </li>
+            </ul> -->
+        </div>
+        <div *ngSwitchCase="'bans'" class='bans'>
+            <p>bans here</p>
+            <!-- <ul>
+                <li *ngFor="let ban of bansList">
+                </li>
+            </ul> -->
+        </div>
+    </div>
+    <div *ngSwitchCase="false" class="login">
+        <div class="loginBox">
+            <input #passBox placeholder="Enter password" (keydown.enter)="attemptLogin(passBox.value); passBox.value = ''">
+            <a class='login_button' (click)="attemptLogin(passBox.value); passBox.value = ''">Login</a>
+        </div>
+    </div>
+</div>
