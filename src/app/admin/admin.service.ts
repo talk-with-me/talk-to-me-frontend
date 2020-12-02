@@ -18,12 +18,12 @@ export class AdminService {
   }
 
   // ==== HTTP ====
-  doAdminAuth(password: string): Observable<ApiResponse<string>> {
-    return this.http.post<ApiResponse<string>>(`${adminBase}/auth`, {password})
+  doAdminAuth(password: string): Observable<ApiResponse<{ authorization: string }>> {
+    return this.http.post<ApiResponse<{ authorization: string }>>(`${adminBase}/auth`, {password})
       .pipe(catchError(this.defaultErrorHandler))
       .pipe(map(response => {
         if (response.success) {
-          this.setAdminToken(response.token);  // todo this should return a token
+          this.setAdminToken(response.data.authorization);
         }
         return response;
       }));
@@ -35,8 +35,7 @@ export class AdminService {
   }
 
   getReportedMessages(roomId: string): Observable<ApiResponse<Message[]>> {
-    // todo will this endpoint change?
-    return this.http.post<ApiResponse<Message[]>>(`${adminBase}/reportmessages`, {room_id: roomId}, this.defaultAuthOptions())
+    return this.http.get<ApiResponse<Message[]>>(`${adminBase}/reports/${roomId}/messages`, this.defaultAuthOptions())
       .pipe(catchError(this.defaultErrorHandler));
   }
 
@@ -55,9 +54,17 @@ export class AdminService {
       .pipe(catchError(this.defaultErrorHandler));
   }
 
-  // ==== helpers ====
+  // ==== public helpers ====
+  isAuthed() {
+    return this.getAdminToken() !== null;
+  }
+
+  // ==== internal helpers ====
   defaultErrorHandler(err: HttpErrorResponse): Observable<ApiResponse<any>> {
     console.error(err);
+    if (err.status === 403) {
+      this.clearAdminToken();
+    }
     return of({...err.error, status: err.status} as ApiResponse<any>);
   }
 
@@ -78,5 +85,9 @@ export class AdminService {
     } catch (e) {
       return null;
     }
+  }
+
+  clearAdminToken() {
+    localStorage.removeItem('admin-token');
   }
 }
