@@ -20,7 +20,7 @@ export class AdminService {
   // ==== HTTP ====
   doAdminAuth(password: string): Observable<ApiResponse<{ authorization: string }>> {
     return this.http.post<ApiResponse<{ authorization: string }>>(`${adminBase}/auth`, {password})
-      .pipe(catchError(this.defaultErrorHandler))
+      .pipe(catchError(err => this.defaultErrorHandler(err)))
       .pipe(map(response => {
         if (response.success) {
           this.setAdminToken(response.data.authorization);
@@ -31,27 +31,27 @@ export class AdminService {
 
   getReports(): Observable<ApiResponse<Report[]>> {
     return this.http.get<ApiResponse<Report[]>>(`${adminBase}/reports`, this.defaultAuthOptions())
-      .pipe(catchError(this.defaultErrorHandler));
+      .pipe(catchError(err => this.defaultErrorHandler(err)));
   }
 
   getReportedMessages(roomId: string): Observable<ApiResponse<Message[]>> {
     return this.http.get<ApiResponse<Message[]>>(`${adminBase}/reports/${roomId}/messages`, this.defaultAuthOptions())
-      .pipe(catchError(this.defaultErrorHandler));
+      .pipe(catchError(err => this.defaultErrorHandler(err)));
   }
 
   banUser(roomId: string, reason: string): Observable<ApiResponse<string>> {
     return this.http.post<ApiResponse<string>>(`${adminBase}/banuser`, {room_id: roomId, reason}, this.defaultAuthOptions())
-      .pipe(catchError(this.defaultErrorHandler));
+      .pipe(catchError(err => this.defaultErrorHandler(err)));
   }
 
   getBans(): Observable<ApiResponse<Ban[]>> {
     return this.http.get<ApiResponse<Ban[]>>(`${adminBase}/bannedusers`, this.defaultAuthOptions())
-      .pipe(catchError(this.defaultErrorHandler));
+      .pipe(catchError(err => this.defaultErrorHandler(err)));
   }
 
   unbanUser(ip: string): Observable<ApiResponse<string>> {
     return this.http.post<ApiResponse<string>>(`${adminBase}/unbanuser`, {ip}, this.defaultAuthOptions())
-      .pipe(catchError(this.defaultErrorHandler));
+      .pipe(catchError(err => this.defaultErrorHandler(err)));
   }
 
   // ==== public helpers ====
