@@ -14,8 +14,8 @@
             </div>
             <div class='input_wrapper'>
                 <div class='inputBox'>
-                    <input #banBox placeholder="Ban reason" (keydown.enter)="banUser(report.room_id, banBox.value); banBox.value = ''">
-                    <a class='input_button' (click)="banUser(report.room_id, banBox.value); banBox.value = ''">Ban</a>
+                    <input #banBox placeholder="Ban reason" (keydown.enter)="banUser(report._id, banBox.value); banBox.value = ''">
+                    <a class='input_button' (click)="banUser(report._id, banBox.value); banBox.value = ''">Ban</a>
                 </div>
             </div>
             <b (click)="viewReportedMessages(report.room_id)">View reported messages</b>

@@ -62,7 +62,6 @@ export class ReportsComponent implements OnInit {
   banUser(roomId: string, reason: string) {
     if (this.service.isAuthed()) {
       if (reason !== '') {
-        console.log(roomId);
         this.service.banUser(roomId, reason)
         .subscribe(response => {
           console.log(response);
