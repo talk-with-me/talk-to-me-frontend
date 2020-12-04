@@ -15,19 +15,11 @@ export class AdminComponent implements OnInit {
   currentView: string;
   showingReportedMessages = false;
 
-  reportsList: Report[] = [
-    { reporter:'me', reporter_ip:'local', reported:'you', reported_ip:'yours', reason:'test', room_id:'1234' },
-    { reporter:'you', reporter_ip:'yours', reported:'me', reported_ip:'local', reason:'test2', room_id:'5678' } 
-  ]
+  reportsList: Report[];
 
-  reportedMessagesList: Message[] = [
-    {_id:'blah', room_id:'1234', author:'me', nonce:'huh', content:'you are bad', timestamp:'yesterday'}
-  ]
+  reportedMessagesList: Message[];
 
-  bansList: Ban[] = [
-    {ip:'yours', reason:'bad boy', date:'yesterday'},
-    {ip:'yours', reason:'bad boy bad boy bad boy bad boy bad boy bad boy', date:'yesterday'}
-  ]
+  bansList: Ban[];
 
   constructor(private service: AdminService, private router: Router) {
   }
@@ -37,12 +29,12 @@ export class AdminComponent implements OnInit {
 
   attemptLogin(password: string) {
     if (password != '') {
-      this.service.doAdminAuth(password);
-      this.loginSuccessful = this.service.isAuthed();
-      console.log(this.loginSuccessful);
-      // Comment out below line when authorization is functional
-      this.loginSuccessful = true;
-      this.currentView = 'admin_buttons'; 
+      this.service.doAdminAuth(password)
+      .subscribe(response => {
+        this.loginSuccessful = this.service.isAuthed();
+        console.log(this.loginSuccessful);
+        this.currentView = 'admin_buttons'; 
+      });
     }
   }
 
@@ -50,7 +42,9 @@ export class AdminComponent implements OnInit {
     console.log('viewing reports');
     this.service.getReports()
       .subscribe(response => {
-        console.log(response);
+        if (response.success) {
+          this.reportsList = response.data;
+        }
       });
     this.currentView = 'reports';
   }
@@ -62,7 +56,9 @@ export class AdminComponent implements OnInit {
       console.log('viewing reported messages');
       this.service.getReportedMessages(id)
         .subscribe(response => {
-          console.log(response);
+          if (response.success) {
+            this.reportedMessagesList = response.data;
+          }
         });
       this.showingReportedMessages = true;
     }
@@ -72,7 +68,9 @@ export class AdminComponent implements OnInit {
     console.log('viewing bans');
     this.service.getBans()
       .subscribe(response => {
-        console.log(response);
+        if (response.success) {
+          this.bansList = response.data;
+        }
       });
     this.currentView = 'bans';
   }
@@ -80,12 +78,18 @@ export class AdminComponent implements OnInit {
   banUser(room_id: string, reason: string) {
     if (reason != '') {
       console.log(room_id);
-      this.service.banUser(room_id, reason);
+      this.service.banUser(room_id, reason)
+      .subscribe(response => {
+        console.log(response);
+      });
     }
   }
 
   unbanUser(ip: string) {
-    this.service.unbanUser(ip);
+    this.service.unbanUser(ip)
+      .subscribe(response => {
+        console.log(response);
+      });
   }
 
 }
