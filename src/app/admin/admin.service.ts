@@ -5,8 +5,10 @@ import {ApiResponse, Message} from '../schemas/api';
 import {environment} from '../../environments/environment';
 import {catchError, map} from 'rxjs/operators';
 import {Ban, Report} from '../schemas/admin';
+import {JwtHelperService} from '@auth0/angular-jwt';
 
 const adminBase = `${environment.apiUrl}/admin`;
+const jwt = new JwtHelperService();
 
 @Injectable({
   providedIn: 'root'
@@ -56,7 +58,8 @@ export class AdminService {
 
   // ==== public helpers ====
   isAuthed() {
-    return this.getAdminToken() !== null;
+    const token = this.getAdminToken();
+    return token !== null /*&& !jwt.isTokenExpired(token);*/;  // uncomment when token is actually a jwt
   }
 
   // ==== internal helpers ====
