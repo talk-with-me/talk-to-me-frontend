@@ -17,7 +17,7 @@ export class AdminComponent implements OnInit {
   ngOnInit() {
     if (this.service.isAuthed()) {
       this.loginSuccessful = this.service.isAuthed();
-      console.log("Login successful?: ", this.loginSuccessful);
+      console.log('Login successful?: ', this.loginSuccessful);
     }
   }
 
@@ -26,7 +26,7 @@ export class AdminComponent implements OnInit {
       this.service.doAdminAuth(password)
       .subscribe(response => {
         this.loginSuccessful = this.service.isAuthed();
-        console.log("Login successful?: ", this.loginSuccessful);
+        console.log('Login successful?: ', this.loginSuccessful);
       });
     }
   }

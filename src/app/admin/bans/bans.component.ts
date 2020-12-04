@@ -23,8 +23,8 @@ export class BansComponent implements OnInit {
         .subscribe(response => {
           if (response.success) {
             this.bansList = response.data;
-            if (this.bansList.length == 0) {
-              this.bansStatus = "No bans";
+            if (this.bansList.length === 0) {
+              this.bansStatus = 'No bans';
             }
           }
         });

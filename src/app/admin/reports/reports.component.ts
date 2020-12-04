@@ -45,9 +45,9 @@ export class ReportsComponent implements OnInit {
           .subscribe(response => {
             if (response.success) {
               this.reportedMessagesList = response.data;
-              if (this.reportedMessagesList.length == 0) {
+              if (this.reportedMessagesList.length === 0) {
                 this.showingReportedMessages = false;
-                console.log("No messages to show");
+                console.log('No messages to show');
               } else {
                 this.showingReportedMessages = true;
               }
