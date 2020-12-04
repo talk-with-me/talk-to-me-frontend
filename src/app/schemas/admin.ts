@@ -1,4 +1,5 @@
 export interface Report {
+  _id: string;
   reporter: string;
   reporter_ip: string;
   reported: string;

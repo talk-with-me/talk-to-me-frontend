@@ -41,8 +41,8 @@ export class AdminService {
       .pipe(catchError(err => this.defaultErrorHandler(err)));
   }
 
-  banUser(roomId: string, reason: string): Observable<ApiResponse<string>> {
-    return this.http.post<ApiResponse<string>>(`${adminBase}/banuser`, {room_id: roomId, reason}, this.defaultAuthOptions())
+  banUser(reportId: string, reason: string): Observable<ApiResponse<string>> {
+    return this.http.post<ApiResponse<string>>(`${adminBase}/banuser`, {report_id: reportId, reason}, this.defaultAuthOptions())
       .pipe(catchError(err => this.defaultErrorHandler(err)));
   }
 

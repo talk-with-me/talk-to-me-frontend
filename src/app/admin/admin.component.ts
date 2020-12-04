@@ -75,10 +75,10 @@ export class AdminComponent implements OnInit {
     this.currentView = 'bans';
   }
 
-  banUser(roomId: string, reason: string) {
+  banUser(reportId: string, reason: string) {
     if (reason !== '') {
-      console.log(roomId);
-      this.service.banUser(roomId, reason)
+      console.log(reportId);
+      this.service.banUser(reportId, reason)
       .subscribe(response => {
         console.log(response);
       });
