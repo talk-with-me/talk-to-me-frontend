@@ -11,8 +11,7 @@ const routes: Routes = [
   { path: 'landing', component: LandingComponent },
   { path: 'chat', component: ChatComponent },
   { path: 'report', component: ReportComponent },
-  { path: 'admin', component: AdminComponent },
-  // { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) },
+  { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) },
 ];
 
 @NgModule({
