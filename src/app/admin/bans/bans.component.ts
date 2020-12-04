@@ -44,4 +44,8 @@ export class BansComponent implements OnInit {
     }
   }
 
+  goToAdmin() {
+    this.router.navigate(['/admin']);
+  }
+
 }

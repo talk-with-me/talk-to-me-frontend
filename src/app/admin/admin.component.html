@@ -2,8 +2,8 @@
     <div *ngSwitchCase="true" class="admin_main">
         <div class='admin_buttons'>
             <ul class='buttons'>
-                <li><a class='admin_button' (click)="this.router.navigate(['/admin/reports']);">View reports</a></li>
-                <li><a class='admin_button' (click)="this.router.navigate(['/admin/bans/']);">View bans</a></li>
+                <li><a class='admin_button' (click)="goToReports()">View reports</a></li>
+                <li><a class='admin_button' (click)="goToBans()">View bans</a></li>
             </ul>
         </div>
     </div>

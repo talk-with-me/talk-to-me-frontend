@@ -74,4 +74,8 @@ export class ReportsComponent implements OnInit {
     }
   }
 
+  goToAdmin() {
+    this.router.navigate(['/admin']);
+  }
+
 }
