@@ -1,46 +1,9 @@
 <div [ngSwitch]="loginSuccessful">
-    <div *ngSwitchCase="true" [ngSwitch]="currentView" class="admin_main">
-        <div *ngSwitchCase="'admin_buttons'" class='admin_buttons'>
+    <div *ngSwitchCase="true" class="admin_main">
+        <div class='admin_buttons'>
             <ul class='buttons'>
-                <li><a class='admin_button' (click)="viewReports()">View reports</a></li>
-                <li><a class='admin_button' (click)="viewBans()">View bans</a></li>
-            </ul>
-        </div>
-        <div *ngSwitchCase="'reports'" class='reports'>
-            <ul>
-                <li [ngSwitch]="showingReportedMessages" *ngFor="let report of reportsList">
-                    <div class='report_content'>
-                        {{report.reporter}}  {{report.reporter_ip}}  {{report.reported}}  {{report.reported_ip}}  {{report.reason}}  {{report.room_id}}
-                    </div>
-                    <div class='input_wrapper'>
-                        <div class='inputBox'>
-                            <input #banBox placeholder="Ban reason" (keydown.enter)="banUser(report._id, banBox.value); banBox.value = ''">
-                            <a class='input_button' (click)="banUser(report._id, banBox.value); banBox.value = ''">Ban</a>
-                        </div>
-                    </div>
-                    <b (click)="viewReportedMessages(report.room_id)">View reported messages</b>
-                    <div *ngSwitchCase="true" class='reported_messages'>
-                        <ul>
-                            <li [ngSwitch]="reportedMsg.room_id" *ngFor="let reportedMsg of reportedMessagesList">
-                                <div *ngSwitchCase="report.room_id" class='reported_message_content'>
-                                    {{reportedMsg.author}}  "{{reportedMsg.content}}"  ({{reportedMsg.timestamp}})
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-            </ul>
-        </div>
-        <div *ngSwitchCase="'bans'" class='bans'>
-            <ul>
-                <li *ngFor="let ban of bansList">
-                    <div class='ban_obj'>
-                        <div class='ban_content'>
-                            {{ban.ip}}  "{{ban.reason}}"  ({{ban.date}})
-                        </div>
-                        <a class='unban_button' (click)="unbanUser(ban.ip)">Unban</a>
-                    </div>
-                </li>
+                <li><a class='admin_button' (click)="this.router.navigate(['/admin/reports']);">View reports</a></li>
+                <li><a class='admin_button' (click)="this.router.navigate(['/admin/bans/']);">View bans</a></li>
             </ul>
         </div>
     </div>

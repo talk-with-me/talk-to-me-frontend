@@ -1,0 +1,36 @@
+<div>
+    <ul>
+        <li><b (click)="this.router.navigate(['/admin']);">Back</b></li>
+    </ul>
+    <ul>
+        <li [ngSwitch]="showingReportedMessages" *ngFor="let report of reportsList">
+            <div class='report_content'>
+                <div><pre>Reporter:        {{report.reporter}}</pre></div>
+                <div><pre>Reporter IP:     {{report.reporter_ip}}</pre></div>
+                <div><pre>Reported:        {{report.reported}}</pre></div>
+                <div><pre>Reported IP:     {{report.reported_ip}}</pre></div>
+                <div><pre>Report reason:   {{report.reason}}</pre></div>
+                <div><pre>Report room id:  {{report.room_id}}</pre></div>         
+            </div>
+            <div class='input_wrapper'>
+                <div class='inputBox'>
+                    <input #banBox placeholder="Ban reason" (keydown.enter)="banUser(report.room_id, banBox.value); banBox.value = ''">
+                    <a class='input_button' (click)="banUser(report.room_id, banBox.value); banBox.value = ''">Ban</a>
+                </div>
+            </div>
+            <b (click)="viewReportedMessages(report.room_id)">View reported messages</b>
+            <div *ngSwitchCase="true" class='reported_messages'>
+                <ul>
+                    <div class='messages_status'>{{messagesStatus}}</div>
+                    <li [ngSwitch]="reportedMsg.room_id" *ngFor="let reportedMsg of reportedMessagesList">
+                        <div *ngSwitchCase="report.room_id" class='reported_message_content'>
+                            <div><pre>Author:     {{reportedMsg.author}}</pre></div>
+                            <div><pre>Content:    "{{reportedMsg.content}}"</pre></div>
+                            <div><pre>Timestamp:  ({{reportedMsg.timestamp}})</pre></div>     
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+</div>

@@ -42,8 +42,4 @@ export class LandingComponent implements OnInit {
         }
       });
   }
-
-  goToAdmin() {
-    this.router.navigate(['admin']);
-  }
 }

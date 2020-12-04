@@ -1,0 +1,18 @@
+<div>
+    <ul>
+        <li><b (click)="this.router.navigate(['/admin']);">Back</b></li>
+    </ul>
+    <ul>
+        <div class="bans_status">{{bansStatus}}</div>
+        <li *ngFor="let ban of bansList">
+            <div class='ban_obj'>
+                <div class='ban_content'>
+                    <div><pre>Banned IP:      {{ban.ip}}</pre></div>
+                    <div><pre>Banned reason:  "{{ban.reason}}"</pre></div>
+                    <div><pre>Banned date:    ({{ban.date}})</pre></div>  
+                </div>
+                <b class='unban_button' (click)="unbanUser(ban.ip)">Unban</b>
+            </div>
+        </li>
+    </ul>
+</div>

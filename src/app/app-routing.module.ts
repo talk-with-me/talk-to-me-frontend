@@ -3,8 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { LandingComponent } from './landing/landing.component';
 import { ChatComponent } from './chat/chat.component';
 import { ReportComponent } from './report/report.component';
-import { AdminComponent } from './admin/admin.component';
-
 
 const routes: Routes = [
   { path: '', redirectTo: '/landing', pathMatch: 'full' },
