@@ -28,12 +28,12 @@ export class AdminComponent implements OnInit {
   }
 
   attemptLogin(password: string) {
-    if (password != '') {
+    if (password !== '') {
       this.service.doAdminAuth(password)
       .subscribe(response => {
         this.loginSuccessful = this.service.isAuthed();
         console.log(this.loginSuccessful);
-        this.currentView = 'admin_buttons'; 
+        this.currentView = 'admin_buttons';
       });
     }
   }
@@ -75,10 +75,10 @@ export class AdminComponent implements OnInit {
     this.currentView = 'bans';
   }
 
-  banUser(room_id: string, reason: string) {
-    if (reason != '') {
-      console.log(room_id);
-      this.service.banUser(room_id, reason)
+  banUser(roomId: string, reason: string) {
+    if (reason !== '') {
+      console.log(roomId);
+      this.service.banUser(roomId, reason)
       .subscribe(response => {
         console.log(response);
       });
