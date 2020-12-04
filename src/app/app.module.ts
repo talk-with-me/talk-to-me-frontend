@@ -23,7 +23,7 @@ const socketIoConfig: SocketIoConfig = {url: environment.apiUrl, options: {}};
     MsgItemComponent,
     SendChatComponent,
     JoinLeaveComponent,
-    ReportComponent
+    ReportComponent,
   ],
   imports: [
     BrowserModule,
