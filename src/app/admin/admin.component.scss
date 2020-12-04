@@ -1,14 +1,3 @@
-.login {
-    width: min(100%, 450px);
-}
-
-.loginBox {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
 input {
     border: 1px;
     border-style: solid;
@@ -23,7 +12,18 @@ input {
     color: #222;
 }
 
-.login_button {
+.input_wrapper {
+    width: min(100%, 450px);
+}
+
+.inputBox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.input_button {
     text-align: center;
     border: 1px solid;
     border-color: black;
@@ -37,8 +37,29 @@ input {
     cursor: pointer;
 }
 
-.login_button:hover{
+.input_button:hover{
     background-color: #777;
+}
+
+.ban_obj {
+    min-height: 27px;
+    margin-bottom: 10px;
+    display: inline-flex;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.unban_button {
+    text-align: center;
+    border: 1px solid;
+    border-color: black;
+    border-radius: 10px;
+    height: 27px;
+    width: 50px;
+    line-height: 27px;
+    font-size: 14px;
+    text-align: center;
+    background-color: #888;
+    cursor: pointer;
 }
 
 .admin_buttons {
@@ -53,7 +74,7 @@ input {
     padding: 0;
 }
 
-li a {
+.admin_button {
     display: block;
     text-align: center;
     padding: 30px 100px;
@@ -70,10 +91,62 @@ li a {
     cursor: pointer;
 }
 
-li a:visited {
+.admin_button:visited {
     color: black;
 }
 
-li a:hover{
+.admin_button:hover{
+    background-color: #777;
+}
+
+.report_content {
+    width: 200px;
+    background-color: #999;
+    border-radius: 4px;
+    border: 1px solid;
+    box-shadow: 2px 2px #222;
+}
+
+.reported_message_content {
+    width: 200px;
+    background-color: #999;
+    border-radius: 4px;
+    border: 1px solid;
+    box-shadow: 2px 2px #222;
+    margin-bottom: 10px;
+}
+
+.ban_content {
+    max-width: min(100%, 450px);
+    background-color: #999;
+    border-radius: 4px;
+    border: 1px solid;
+    box-shadow: 2px 2px #222;
+}
+
+ul {
+    list-style-type: none;
+}
+
+li b {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    background-color: #999;
+    border-radius: 4px;
+    border: 1px solid;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    box-shadow: 2px 2px #222;
+    max-width: 200px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+li b:visited {
+    color: black;
+}
+
+li b:hover{
     background-color: #777;
 }
