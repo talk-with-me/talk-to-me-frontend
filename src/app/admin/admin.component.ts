@@ -30,4 +30,12 @@ export class AdminComponent implements OnInit {
       });
     }
   }
+
+  goToReports() {
+    this.router.navigate(['/admin/reports']);
+  }
+
+  goToBans() {
+    this.router.navigate(['/admin/bans/']);
+  }
 }
