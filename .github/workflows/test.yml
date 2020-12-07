@@ -21,7 +21,7 @@ jobs:
           ref: main
           path: backend
       - name: Build backend
-        run: cd backend && docker-compose up --build -d && cd ..
+        run: cd $GITHUB_WORKSPACE/backend && docker-compose up --build -d && cd ..
       - name: Clone repo
         uses: actions/checkout@v1
       - name: Use Node.js 12.8
