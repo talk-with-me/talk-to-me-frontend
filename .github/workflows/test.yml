@@ -19,8 +19,9 @@ jobs:
         with:
           repository: "talk-with-me/talk-to-me-backend"
           ref: main
+          path: backend
       - name: Build backend
-        run: cd talk-to-me-backend && docker-compose up --build -d && cd ..
+        run: cd backend && docker-compose up --build -d && cd ..
       - name: Clone repo
         uses: actions/checkout@v1
       - name: Use Node.js 12.8
