@@ -21,7 +21,7 @@ export class ChatComponent implements OnInit {
   ];
 
   constructor(private service: AppService, private router: Router) {
-    // example implementation
+    // event emitters
     this.service.queueCompleteEmitter.subscribe(event => this.onQueueComplete(event));
     this.service.messageEmitter.subscribe(msg => this.onMessage(msg));
     this.service.userConnectedEmitter.subscribe(_ => this.onUserConnected());
@@ -35,51 +35,8 @@ export class ChatComponent implements OnInit {
     }
   }
 
-  dummySendMsg(msg: string) {
-    // code extracted from basic-ui branch, to be changed eventually
-    let sentVar = true;
-    let receiveVar = true;
-    let newMsg = msg;
-    if (msg[0] === '%') {
-      sentVar = false;
-      newMsg = msg.substring(1);
-    }
-    if (msg[0] === '&') {
-      receiveVar = false;
-      newMsg = msg.substring(1);
-    }
-    if (msg[0] === '#') {
-      this.roomStatus = !this.roomStatus;
-      const obj = { id: 'necessary', type: 'joinleave', isJoin: this.roomStatus };
-      this.chatItemList.push(obj);
-    }
-    if (this.roomStatus) {
-      if (msg !== '' && msg[0] !== '#') {
-        const obj = { id: 'necessary', type: 'message', msg: newMsg, sent: sentVar, nonce: 'blah', sentByMe: receiveVar };
-        this.chatItemList.push(obj);
-        this.service.sendMessage(obj.msg, obj.nonce);
-      }
-    }
-  }
-
   // button handlers
   sendMsg(msg: string) {
-    // this.dummySendMsg(msg);
-    // return; // todo remove these lines to use the API
-
-    // Uncomment these lines to simulate joining and leaving a chat manually
-    // if (msg[0] === '#') {
-    //   if (this.roomStatus) {
-    //     this.roomStatus = !this.roomStatus;
-    //     this.chatItemList = [];
-    //     this.chatItemList.push({ type: 'joinleave', isJoin: false, disconnected: true } as JoinLeaveItem);
-    //   } else {
-    //     msg = msg.substring(1);
-    //     this.roomStatus = !this.roomStatus;
-    //     this.chatItemList.push({ type: 'joinleave', isJoin: this.roomStatus } as JoinLeaveItem);
-    //   }
-    // }
-
     if (this.roomStatus && msg !== '') {
       const nonce = generateNonce();
       const dummy: MsgItem = { msg, sent: false, nonce, sentByMe: true, id: null, type: 'message', liked: false };
