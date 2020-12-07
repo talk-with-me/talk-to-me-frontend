@@ -59,7 +59,12 @@ export class AdminService {
   // ==== public helpers ====
   isAuthed() {
     const token = this.getAdminToken();
-    return token !== null /*&& !jwt.isTokenExpired(token);*/;  // uncomment when token is actually a jwt
+    try {
+      return token !== null && !jwt.isTokenExpired(token);
+    } catch (e) {
+      this.clearAdminToken();
+      return false;
+    }
   }
 
   // ==== internal helpers ====
