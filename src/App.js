@@ -1,8 +1,12 @@
 import {useEffect} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
 import {Helmet} from 'react-helmet';
+import {NavLink, Route, HashRouter} from 'react-router-dom';
 import MenuIcon from '@material-ui/icons/Menu';
 import './App.css';
+import Welcome from './Welcome';
+import Chat from './Chat';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,25 +29,11 @@ const useStyles = makeStyles((theme) => ({
     'margin-left': '10px',
   },
   title: {
+    'textTransform': 'none',
     'padding-top': '5px',
     'color': 'white',
     'font-weight': '900',
     'font-size': '40pt',
-  },
-  content: {
-    'padding': '80px',
-    'color': 'white',
-    'font-weight': 'bold',
-    'font-size': '32pt',
-  },
-  welcomeTitle: {
-    'color': '#ffa740',
-    'width': '900px',
-  },
-  welcomeMessage: {
-    'padding-top': '20px',
-    'font-size': '24pt',
-    'width': '900px',
   }
 }));
 
@@ -60,22 +50,24 @@ function App() {
       <Helmet>
         <title>Talk To Me</title>
       </Helmet>
-      <div className={classes.topbar}>
-        <MenuIcon className={classes.menuIcon}/>
-        <div className={classes.title}>Talk To Me</div>
-        <div></div>
-      </div>
-      <div className={classes.content}>
-        <div className={classes.welcomeTitle}>
-          Welcome to Talk To Me
+      <HashRouter>
+        <div className={classes.topbar}>
+          <MenuIcon className={classes.menuIcon}/>
+          <Button
+            className={classes.title}
+            component={NavLink}
+            to='/'>
+            Talk To Me
+          </Button>
+          <div></div>
         </div>
-        <div className={classes.welcomeMessage}>
-          The purpose of this site is to provide a wholesome, anonymous chat service with the aim of combating the loneliness of quarantine.
-        </div>
-        <div className={classes.welcomeMessage}>
-          We are currently under construction as our frontend is undergoing major changes, so stay tuned!
-        </div>
-      </div>
+        <Route exact path='/'>
+          <Welcome />
+        </Route>
+        <Route path='/chat'>
+          <Chat />
+        </Route>
+      </HashRouter>
     </div>
   );
 }
