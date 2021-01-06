@@ -17,7 +17,12 @@ const useStyles = makeStyles((theme) => ({
   },
   messages: {
     'flex': '1 1 auto',
-  }
+  },
+  myMessage: {
+    'background': '#361999',
+    'padding': '15px',
+    'border-radius': '10px',
+  },
 }));
 
 /**
@@ -27,6 +32,10 @@ const useStyles = makeStyles((theme) => ({
  */
 function ChatWindow() {
   const classes = useStyles();
+
+  var messages = [
+    {id: 1, incoming: false, content: 'Hello World!'}
+  ];
 
   return (
     <Box className={classes.root}>
