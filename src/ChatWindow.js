@@ -1,7 +1,7 @@
 import {useEffect} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
-import TextField from '@material-ui/core/TextField';
+import InputBase from '@material-ui/core/InputBase';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -61,25 +61,27 @@ function ChatWindow() {
     {id: 4, incoming: true, content: 'I am good!'},
     {id: 5, incoming: true, content: 'How are you?'},
     {id: 6, incoming: false, content: 'It\'s been rough, but I\'m coming out on top.'},
-    {id: 7, incoming: false, content: 'How\'s the weather where you are?'},
-    {id: 7, incoming: false, content: 'How\'s the weather where you are?'},
-    {id: 7, incoming: false, content: 'How\'s the weather where you are?'},
-    {id: 7, incoming: false, content: 'How\'s the weather where you are?'},
-    {id: 7, incoming: false, content: 'How\'s the weather where you are?'},
-    {id: 7, incoming: false, content: 'How\'s the weather where you are?'},
-    {id: 7, incoming: false, content: 'How\'s the weather where you are?'},
+    {id: 8, incoming: false, content: 'How\'s the weather where you are?'},
+    {id: 9, incoming: false, content: 'How\'s the weather where you are?'},
+    {id: 10, incoming: false, content: 'How\'s the weather where you are?'},
+    {id: 11, incoming: false, content: 'How\'s the weather where you are?'},
+    {id: 12, incoming: false, content: 'How\'s the weather where you are?'},
+    {id: 13, incoming: false, content: 'How\'s the weather where you are?'},
+    {id: 14, incoming: false, content: 'How\'s the weather where you are?'},
   ];
 
   return (
     <Box className={classes.root}>
       <div className={classes.messages}>
         {messages.map(message => (
-          <div className={message.incoming ? classes.theirMessage : classes.myMessage}>
+          <div 
+            key={message.id} 
+            className={message.incoming ? classes.theirMessage : classes.myMessage}>
             {message.content}
           </div>
         ))}
       </div>
-      <TextField className={classes.inputBox}
+      <InputBase className={classes.inputBox}
         placeholder="Send a message!"
         variant="outlined"/>
     </Box>
