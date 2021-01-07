@@ -17,9 +17,25 @@ const useStyles = makeStyles((theme) => ({
   },
   messages: {
     'flex': '1 1 auto',
+    'display': 'flex',
+    'flex-direction': 'column',
+    'font-size': '14pt',
   },
   myMessage: {
+    'margin': '10px',
     'background': '#361999',
+    'display': 'inline-flex',
+    'align-self': 'flex-end',
+    'color': 'white',
+    'padding': '15px',
+    'border-radius': '10px',
+  },
+  theirMessage: {
+    'margin': '10px',
+    'background': '#DDD',
+    'display': 'inline-flex',
+    'align-self': 'flex-start',
+    'color': 'black',
     'padding': '15px',
     'border-radius': '10px',
   },
@@ -34,13 +50,18 @@ function ChatWindow() {
   const classes = useStyles();
 
   var messages = [
-    {id: 1, incoming: false, content: 'Hello World!'}
+    {id: 1, incoming: false, content: 'Hello World!'},
+    {id: 2, incoming: true, content: 'Hello There!'}
   ];
 
   return (
     <Box className={classes.root}>
       <div className={classes.messages}>
-        Messages
+        {messages.map(message => (
+          <div className={message.incoming ? classes.theirMessage : classes.myMessage}>
+            {message.content}
+          </div>
+        ))}
       </div>
       Chat box
     </Box>
