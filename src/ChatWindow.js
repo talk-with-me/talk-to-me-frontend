@@ -20,25 +20,30 @@ const useStyles = makeStyles((theme) => ({
     'display': 'flex',
     'flex-direction': 'column',
     'font-size': '14pt',
+    'padding': '10px',
+    'overflow': 'scroll',
   },
   myMessage: {
-    'margin': '10px',
+    'margin': '4px',
     'background': '#361999',
     'display': 'inline-flex',
     'align-self': 'flex-end',
     'color': 'white',
-    'padding': '15px',
+    'padding': '12px',
     'border-radius': '10px',
   },
   theirMessage: {
-    'margin': '10px',
+    'margin': '4px',
     'background': '#DDD',
     'display': 'inline-flex',
     'align-self': 'flex-start',
     'color': 'black',
-    'padding': '15px',
+    'padding': '12px',
     'border-radius': '10px',
   },
+  inputBox: {
+    'padding': '5px',
+  }
 }));
 
 /**
@@ -51,7 +56,18 @@ function ChatWindow() {
 
   var messages = [
     {id: 1, incoming: false, content: 'Hello World!'},
-    {id: 2, incoming: true, content: 'Hello There!'}
+    {id: 2, incoming: true, content: 'Hello There!'},
+    {id: 3, incoming: false, content: 'How are you?'},
+    {id: 4, incoming: true, content: 'I am good!'},
+    {id: 5, incoming: true, content: 'How are you?'},
+    {id: 6, incoming: false, content: 'It\'s been rough, but I\'m coming out on top.'},
+    {id: 7, incoming: false, content: 'How\'s the weather where you are?'},
+    {id: 7, incoming: false, content: 'How\'s the weather where you are?'},
+    {id: 7, incoming: false, content: 'How\'s the weather where you are?'},
+    {id: 7, incoming: false, content: 'How\'s the weather where you are?'},
+    {id: 7, incoming: false, content: 'How\'s the weather where you are?'},
+    {id: 7, incoming: false, content: 'How\'s the weather where you are?'},
+    {id: 7, incoming: false, content: 'How\'s the weather where you are?'},
   ];
 
   return (
@@ -63,7 +79,9 @@ function ChatWindow() {
           </div>
         ))}
       </div>
-      Chat box
+      <TextField className={classes.inputBox}
+        placeholder="Send a message!"
+        variant="outlined"/>
     </Box>
   );
 }
