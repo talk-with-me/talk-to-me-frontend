@@ -2,6 +2,7 @@ import {useState, useEffect} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import ChatWindow from './ChatWindow';
 import axios from 'axios';
+import openSocket from 'socket.io-client';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,6 +39,12 @@ function Chat() {
         setId(request.data.data.id);
         setSecret(request.data.data.secret);
       });
+    const socket = openSocket(api_url);
+    socket.emit("hello", {secret: secret});
+    console.log(socket);
+    socket.on("test", data => {
+      console.log("test received");
+    });
   }, []);
 
   return (
