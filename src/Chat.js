@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import ChatWindow from './ChatWindow';
 import axios from 'axios';
-import openSocket from 'socket.io-client';
+import io from 'socket.io-client';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,20 +31,24 @@ function Chat() {
   const [queueStatus, setQueueStatus] = useState('in');
   const [id, setId] = useState('');
   const [secret, setSecret] = useState('');
+  const messages = [];
+  let socket = null;
+
 
   // Queue request
   useEffect(() => {
+    /* Commented out while sockets are being worked on
     axios.post(api_url + '/queue')
       .then(request => {
         setId(request.data.data.id);
         setSecret(request.data.data.secret);
+        console.log(request.data.data.id, request.data.data.secret);
+        socket = io.connect(api_url, {origins: 'http://localhost:8000', transports: ['websocket']})
+        socket.on('connect', (() => {socket.emit('register_sid', request.data.data.secret)}));
+        socket.on('send_message_to_client', ((message) => {messages.push(message)}));
+        socket.on('test', (() => {console.log('emit received')}));
       });
-    const socket = openSocket(api_url);
-    socket.emit("hello", {secret: secret});
-    console.log(socket);
-    socket.on("test", data => {
-      console.log("test received");
-    });
+      */
   }, []);
 
   return (
@@ -53,7 +57,7 @@ function Chat() {
         Talk To Me
       </div>
       {queueStatus == 'out' ?
-        <ChatWindow /> :
+        <ChatWindow messages={messages}/> :
         <div className={classes.waitMessage}>
           You are now in queue...
         </div>
