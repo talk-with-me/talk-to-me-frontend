@@ -49,26 +49,19 @@ const useStyles = makeStyles((theme) => ({
 /**
  * Chat window component - Component to type and display messages
  *
+ * @param {Map} props - props given to component
  * @return {object} JSX
  */
-function ChatWindow() {
+function ChatWindow(props) {
   const classes = useStyles();
+  console.log(props);
 
-  var messages = [
-    {id: 1, incoming: false, content: 'Hello World!'},
-    {id: 2, incoming: true, content: 'Hello There!'},
-    {id: 3, incoming: false, content: 'How are you?'},
-    {id: 4, incoming: true, content: 'I am good!'},
-    {id: 5, incoming: true, content: 'How are you?'},
-    {id: 6, incoming: false, content: 'It\'s been rough, but I\'m coming out on top.'},
-    {id: 8, incoming: false, content: 'How\'s the weather where you are?'},
-    {id: 9, incoming: false, content: 'How\'s the weather where you are?'},
-    {id: 10, incoming: false, content: 'How\'s the weather where you are?'},
-    {id: 11, incoming: false, content: 'How\'s the weather where you are?'},
-    {id: 12, incoming: false, content: 'How\'s the weather where you are?'},
-    {id: 13, incoming: false, content: 'How\'s the weather where you are?'},
-    {id: 14, incoming: false, content: 'How\'s the weather where you are?'},
+  const messages = props['messages'];
+  /*
+  const messages = [
+    {message_id: 1, incoming: false, content: 'Hello World!', liked: false},
   ];
+  */
 
   return (
     <Box className={classes.root}>

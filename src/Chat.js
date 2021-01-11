@@ -31,13 +31,17 @@ function Chat() {
   const [queueStatus, setQueueStatus] = useState('in');
   const [id, setId] = useState('');
   const [secret, setSecret] = useState('');
-  const messages = [];
+  const [messages, setMessages] = useState([]);
   let socket = null;
 
+  const addMessage = ((message) => {
+    console.log("old messages:", messages);
+    console.log("new messages:", messages.concat([message]));
+    setMessages(messages.concat([message]));
+  });
 
-  // Queue request
+  // Queue request and socket connection on component mount
   useEffect(() => {
-    /* Commented out while sockets are being worked on
     axios.post(api_url + '/queue')
       .then(request => {
         setId(request.data.data.id);
@@ -45,19 +49,29 @@ function Chat() {
         console.log(request.data.data.id, request.data.data.secret);
         socket = io.connect(api_url, {origins: 'http://localhost:8000', transports: ['websocket']})
         socket.on('connect', (() => {socket.emit('register_sid', request.data.data.secret)}));
-        socket.on('send_message_to_client', ((message) => {messages.push(message)}));
-        socket.on('test', (() => {console.log('emit received')}));
+        socket.on('send_message_to_client', ((message) => {
+          addMessage(message);
+        }));
+        socket.on('queue_complete', (() => {
+          console.log('queue complete');
+          socket.emit('join_room', request.data.data.secret);
+          setQueueStatus('out');
+        }));
       });
-      */
   }, []);
+
+  // Update children components when messages are added or deleted
+  useEffect(() => {
+    console.log("rerendering with following messages:", messages);
+  }, [messages]);
 
   return (
     <div className={classes.root}>
       <div className={classes.title}>
         Talk To Me
       </div>
-      {queueStatus == 'out' ?
-        <ChatWindow messages={messages}/> :
+      {queueStatus === 'out' ?
+        <ChatWindow messages={messages} id={id} secret={secret}/> :
         <div className={classes.waitMessage}>
           You are now in queue...
         </div>
