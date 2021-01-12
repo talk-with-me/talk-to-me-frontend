@@ -1,7 +1,9 @@
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import InputBase from '@material-ui/core/InputBase';
+import axios from 'axios'
+import {v4 as uuidv4} from 'uuid';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,6 +55,7 @@ const useStyles = makeStyles((theme) => ({
  * @return {object} JSX
  */
 function ChatWindow(props) {
+  const [textFieldContent, setTextFieldContent] = useState('');
   const classes = useStyles();
   console.log(props);
 
@@ -62,6 +65,22 @@ function ChatWindow(props) {
     {message_id: 1, incoming: false, content: 'Hello World!', liked: false},
   ];
   */
+
+  const sendMessage = ((content) => {
+    const message = {
+        'message_id': uuidv4(),
+        'user_id': props['user_id'],
+        'secret': props['secret'],
+        'content': content
+      };
+
+    console.log(message);
+    props['setMessages'](messages.concat([message]));
+    axios.post(
+      props['api_url'] + '/messages',
+      message
+    );
+  });
 
   return (
     <Box className={classes.root}>
@@ -76,7 +95,15 @@ function ChatWindow(props) {
       </div>
       <InputBase className={classes.inputBox}
         placeholder="Send a message!"
-        variant="outlined"/>
+        variant="outlined"
+        onKeyDown= {(event) => {
+          if (event.key == 'Enter') {
+            console.log(event.target.value);
+            sendMessage(event.target.value);
+            event.target.value = '';
+          }
+        }}
+      />
     </Box>
   );
 }
