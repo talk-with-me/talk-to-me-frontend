@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const api_url = 'http://localhost:8000'; // Only for testing purposes
+const api_url = 'https://api.talk-to-me.co'; // Only for testing purposes
 
 /**
  * Chat component - Chat page
