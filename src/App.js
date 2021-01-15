@@ -1,32 +1,26 @@
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
+import SharedContext from './SharedContext';
 import Button from '@material-ui/core/Button';
 import {Helmet} from 'react-helmet';
 import {NavLink, Route, HashRouter} from 'react-router-dom';
 import MenuIcon from '@material-ui/icons/Menu';
+import IconButton from '@material-ui/core/IconButton';
 import './App.css';
 import Welcome from './Welcome';
 import Chat from './Chat';
+import Sidebar from './Sidebar';
+import Topbar from './Topbar';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     'font-family': 'Roboto',
   },
-  topbar: {
-    'width': '100%',
-    'height': '70px',
-    'background': 'radial-gradient(circle, rgba(254,131,67,1) 0%, rgba(248,74,98,1) 100%)',
-    'border-radius': '2px',
-    'color': 'white',
-    'padding-top': '10px',
-    'padding-bottom': '10px',
-    'display': 'flex',
-    'justify-content': 'space-between',
-  },
   menuIcon: {
     'font-size': '30pt',
     'margin-top': '14px',
     'margin-left': '10px',
+    'color': 'white',
   },
   title: {
     'textTransform': 'none',
@@ -44,30 +38,27 @@ const useStyles = makeStyles((theme) => ({
  */
 function App() {
   const classes = useStyles();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
     <div className={classes.root}>
-      <Helmet>
-        <title>Talk To Me</title>
-      </Helmet>
-      <HashRouter>
-        <div className={classes.topbar}>
-          <MenuIcon className={classes.menuIcon}/>
-          <Button
-            className={classes.title}
-            component={NavLink}
-            to='/'>
-            Talk To Me
-          </Button>
-          <div></div>
-        </div>
-        <Route exact path='/'>
-          <Welcome />
-        </Route>
-        <Route path='/chat'>
-          <Chat />
-        </Route>
-      </HashRouter>
+      <SharedContext.Provider value={{
+        sidebarOpen, setSidebarOpen
+      }}>
+        <Helmet>
+          <title>Talk To Me</title>
+        </Helmet>
+        <HashRouter>
+          <Sidebar />
+          <Topbar />
+          <Route exact path='/'>
+            <Welcome />
+          </Route>
+          <Route path='/chat'>
+            <Chat />
+          </Route>
+        </HashRouter>
+      </SharedContext.Provider>
     </div>
   );
 }
