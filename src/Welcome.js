@@ -6,7 +6,6 @@ import Button from '@material-ui/core/Button';
 const useStyles = makeStyles((theme) => ({
   content: {
     'padding': '80px',
-    'color': 'white',
     'font-weight': 'bold',
     'font-size': '32pt',
     [theme.breakpoints.down('xs')]:{
@@ -27,9 +26,11 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   welcomeMessage: {
+    'color': '#f74a61',
     'text-align': 'center',
     'padding-top': '20px',
     'font-size': '24pt',
+    'font-weight': '500',
     'width': '100%',
     'margin': 'auto',
     [theme.breakpoints.up('md')]:{
@@ -59,10 +60,10 @@ function Welcome() {
         Welcome to Talk To Me
       </div>
       <div className={classes.welcomeMessage}>
-        The purpose of this site is to provide a wholesome, anonymous chat service with the aim of combating the loneliness of quarantine.
+        A wholesome, anonymous chat service.
       </div>
       <div className={classes.welcomeMessage}>
-        We are currently under construction as our frontend is undergoing major changes, so stay tuned!
+        Pardon the dust, our website is under construction!
       </div>
     </div>
   );

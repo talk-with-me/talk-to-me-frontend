@@ -19,6 +19,8 @@ const useStyles = makeStyles((theme) => ({
     'width': '900px',
   },
   waitMessage: {
+    'padding-top': '40px',
+    'color': '#ffa740',
     'text-align': 'center',
     'font-size': '32pt',
     [theme.breakpoints.down('xs')]: {
@@ -79,10 +81,16 @@ function Chat() {
       <div className={classes.title}>
       </div>
       {queueStatus === 'out' ?
-        <ChatWindow messages={messages} setMessages={setMessages} user_id={id} secret={secret} api_url={api_url}/> :
+        <div className={classes.waitMessage}>
+          Match found!
+        </div> :
         <div className={classes.waitMessage}>
           Finding the perfect match...
         </div>
+      }
+      {queueStatus === 'out' ?
+        <ChatWindow messages={messages} setMessages={setMessages} user_id={id} secret={secret} api_url={api_url}/> :
+        <div />
       }
     </div>
   );

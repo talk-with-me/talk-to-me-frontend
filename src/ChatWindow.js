@@ -7,6 +7,8 @@ import {v4 as uuidv4} from 'uuid';
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    'position': 'relative',
+    'top': '-100px',
     'margin': 'auto',
     'background': '#FEFEFE',
     'color': '#333',
@@ -32,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   },
   myMessage: {
     'margin': '4px',
-    'background': '#361999',
+    'background': '#f74a61',
     'display': 'inline-flex',
     'align-self': 'flex-end',
     'color': 'white',
