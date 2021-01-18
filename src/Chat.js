@@ -10,9 +10,9 @@ const useStyles = makeStyles((theme) => ({
     'color': 'white',
     'font-weight': 'bold',
     'font-size': '32pt',
-    [theme.breakpoints.down('xs')]: {
-      'margin': '20px',
-    }
+    'display': 'flex',
+    'flex-direction': 'column',
+    'height': 'calc(100vh - 130px)',
   },
   title: {
     'color': '#ffa740',
@@ -24,7 +24,6 @@ const useStyles = makeStyles((theme) => ({
     'text-align': 'center',
     'font-size': '32pt',
     [theme.breakpoints.down('xs')]: {
-      'padding-top': '40px',
       'font-size': '20pt',
     }
   },

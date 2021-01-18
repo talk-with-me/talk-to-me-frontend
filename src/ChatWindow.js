@@ -9,20 +9,23 @@ const useStyles = makeStyles((theme) => ({
   root: {
     'position': 'relative',
     'top': '-100px',
+    'flex-grow': '2',
     'margin': 'auto',
     'background': '#FEFEFE',
     'color': '#333',
     'width': '100%',
-    'height': '600px',
+    'height': '100%',
     'border-radius': '5px',
     'font-weight': 'bold',
     'font-size': '32pt',
     'display': 'flex', // HELL YEAH FLEXBOX
     'flex-direction': 'column',
-    [theme.breakpoints.up('lg')]: {
-      'width': '1200px',
-      'height': '800px',
+    [theme.breakpoints.up('sm')]: {
+      'width': '600px',
     },
+    [theme.breakpoints.down('xs')]: {
+      'top': '-80px',
+    }
   },
   messages: {
     'flex': '1 1 auto',
