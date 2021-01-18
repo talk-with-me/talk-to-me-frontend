@@ -39,11 +39,13 @@ const useStyles = makeStyles((theme) => ({
 function App() {
   const classes = useStyles();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [chatting, setChatting] = useState(false);
 
   return (
     <div className={classes.root}>
       <SharedContext.Provider value={{
-        sidebarOpen, setSidebarOpen
+        sidebarOpen, setSidebarOpen,
+        chatting, setChatting
       }}>
         <Helmet>
           <title>Talk To Me</title>

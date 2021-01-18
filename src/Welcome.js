@@ -9,29 +9,40 @@ const useStyles = makeStyles((theme) => ({
     'color': 'white',
     'font-weight': 'bold',
     'font-size': '32pt',
+    [theme.breakpoints.down('xs')]:{
+      'padding-top': '30px',
+      'padding': '20px',
+    },
   },
   welcomeTitle: {
     'color': '#ffa740',
-    'width': '900px',
+    'width': '100%',
+    'text-align': 'center',
+    'font-size': '48pt',
+    [theme.breakpoints.down('sm')]:{
+      'font-size': '36pt',
+    },
+    [theme.breakpoints.down('xs')]:{
+      'font-size': '24pt',
+    },
   },
   welcomeMessage: {
+    'text-align': 'center',
     'padding-top': '20px',
     'font-size': '24pt',
-    'width': '900px',
-  },
-  chatButton: {
-    'margin-top': '30px',
-    'border-radius': '30px',
-    'background': 'rgba(254,131,67,1)',
-    'color': 'white',
-    'font-size': '20pt',
-    'letter-spacing': '2px',
-    'height': '60px',
-    'width': '180px',
-    '&:hover': {
-      'background': 'rgba(254,131,67,1)',
+    'width': '100%',
+    'margin': 'auto',
+    [theme.breakpoints.up('md')]:{
+      'padding-top': '40px',
+      'width': '900px',
     },
-  }
+    [theme.breakpoints.down('sm')]:{
+      'font-size': '20pt',
+    },
+    [theme.breakpoints.down('xs')]:{
+      'font-size': '16pt',
+    },
+  },
 }));
 
 /**
@@ -53,13 +64,6 @@ function Welcome() {
       <div className={classes.welcomeMessage}>
         We are currently under construction as our frontend is undergoing major changes, so stay tuned!
       </div>
-      <Button
-        variant='contained'
-        className={classes.chatButton}
-        component={NavLink}
-        to='/chat'>
-        Chat 
-      </Button>
     </div>
   );
 }

@@ -7,15 +7,20 @@ import {v4 as uuidv4} from 'uuid';
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    'margin': 'auto',
     'background': '#FEFEFE',
     'color': '#333',
-    'width': '400px',
+    'width': '100%',
     'height': '600px',
     'border-radius': '5px',
     'font-weight': 'bold',
     'font-size': '32pt',
     'display': 'flex', // HELL YEAH FLEXBOX
     'flex-direction': 'column',
+    [theme.breakpoints.up('lg')]: {
+      'width': '1200px',
+      'height': '800px',
+    },
   },
   messages: {
     'flex': '1 1 auto',

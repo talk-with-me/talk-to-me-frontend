@@ -6,20 +6,30 @@ import io from 'socket.io-client';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    'margin': '80px',
+    'margin': '20px',
     'color': 'white',
     'font-weight': 'bold',
     'font-size': '32pt',
+    [theme.breakpoints.down('xs')]: {
+      'margin': '20px',
+    }
   },
   title: {
     'color': '#ffa740',
     'width': '900px',
   },
   waitMessage: {
+    'text-align': 'center',
+    'font-size': '32pt',
+    [theme.breakpoints.down('xs')]: {
+      'padding-top': '40px',
+      'font-size': '20pt',
+    }
   },
 }));
 
 const api_url = 'https://api.talk-to-me.co'; // Only for testing purposes
+//const api_url = 'https://localhost'; // Only for testing purposes
 
 /**
  * Chat component - Chat page
@@ -67,12 +77,11 @@ function Chat() {
   return (
     <div className={classes.root}>
       <div className={classes.title}>
-        Talk To Me
       </div>
       {queueStatus === 'out' ?
         <ChatWindow messages={messages} setMessages={setMessages} user_id={id} secret={secret} api_url={api_url}/> :
         <div className={classes.waitMessage}>
-          You are now in queue...
+          Finding the perfect match...
         </div>
       }
     </div>
