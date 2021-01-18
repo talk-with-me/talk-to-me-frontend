@@ -1,4 +1,5 @@
 import React from 'react';
+import {Route} from 'react-router-dom';
 import {NavLink} from 'react-router-dom';
 import {makeStyles} from '@material-ui/core/styles';
 import SharedContext from './SharedContext';
@@ -75,13 +76,17 @@ function Topbar() {
         className={classes.menuButton}>
         <MenuIcon className={classes.menuIcon}/>
       </IconButton>
-      <Button
-        variant='contained'
-        className={classes.chatButton}
-        component={NavLink}
-        to='/chat'>
-        Let's Talk 
-      </Button>
+      {/* Only display button outside of /chat route */}
+      <Route
+        path="\/([^c][^h][^a][^t].*|.{0,3})">
+        <Button
+          variant='contained'
+          className={classes.chatButton}
+          component={NavLink}
+          to='/chat'>
+          Let's Talk 
+        </Button>
+      </Route>
     </div>
   );
 }

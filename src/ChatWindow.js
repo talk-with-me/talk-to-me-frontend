@@ -1,7 +1,10 @@
 import {useEffect, useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
+import {NavLink} from 'react-router-dom';
 import Box from '@material-ui/core/Box';
 import InputBase from '@material-ui/core/InputBase';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import IconButton from '@material-ui/core/IconButton';
 import axios from 'axios'
 import {v4 as uuidv4} from 'uuid';
 
@@ -11,10 +14,24 @@ const useStyles = makeStyles((theme) => ({
     'top': '-100px',
     'flex-grow': '2',
     'margin': 'auto',
-    'background': '#FEFEFE',
-    'color': '#333',
+    'display': 'flex',
+  },
+  backButton: {
+    'margin-top': '10px',
+    'margin-right': '20px',
+    'height': '40px',
+    'width': '40px',
+    'color': '#f74a61',
+  },
+  backIcon: {
+    'height': '40px',
+    'width': '40px',
+  },
+  chatWindow: {
     'width': '100%',
     'height': '100%',
+    'background': '#FEFEFE',
+    'color': '#333',
     'border-radius': '5px',
     'font-weight': 'bold',
     'font-size': '32pt',
@@ -46,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
   },
   theirMessage: {
     'margin': '4px',
-    'background': '#DDD',
+    'background': '#EEE',
     'display': 'inline-flex',
     'align-self': 'flex-start',
     'color': 'black',
@@ -70,12 +87,8 @@ function ChatWindow(props) {
   console.log(props);
 
   const messages = props['messages'];
-  /*
-  const messages = [
-    {message_id: 1, incoming: false, content: 'Hello World!', liked: false},
-  ];
-  */
 
+  // Post message request
   const sendMessage = ((content) => {
     const message = {
         'message_id': uuidv4(),
@@ -93,28 +106,36 @@ function ChatWindow(props) {
   });
 
   return (
-    <Box className={classes.root}>
-      <div className={classes.messages}>
-        {messages.map(message => (
-          <div 
-            key={message.id} 
-            className={message.incoming ? classes.theirMessage : classes.myMessage}>
-            {message.content}
-          </div>
-        ))}
-      </div>
-      <InputBase className={classes.inputBox}
-        placeholder="Send a message!"
-        variant="outlined"
-        onKeyDown= {(event) => {
-          if (event.key == 'Enter') {
-            console.log(event.target.value);
-            sendMessage(event.target.value);
-            event.target.value = '';
-          }
-        }}
-      />
-    </Box>
+    <div className={classes.root}>
+      <IconButton
+        className={classes.backButton}
+        component={NavLink}
+        to='/'>
+        <ArrowBackIcon className={classes.backIcon}/>
+      </IconButton>
+      <Box className={classes.chatWindow}>
+        <div className={classes.messages}>
+          {messages.map(message => (
+            <div 
+              key={message.id} 
+              className={message.incoming ? classes.theirMessage : classes.myMessage}>
+              {message.content}
+            </div>
+          ))}
+        </div>
+        <InputBase className={classes.inputBox}
+          placeholder="Send a message!"
+          variant="outlined"
+          onKeyDown= {(event) => {
+            if (event.key == 'Enter') {
+              console.log(event.target.value);
+              sendMessage(event.target.value);
+              event.target.value = '';
+            }
+          }}
+        />
+      </Box>
+    </div>
   );
 }
 

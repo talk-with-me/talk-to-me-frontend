@@ -1,5 +1,7 @@
 import {useState, useEffect} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
+import IconButton from '@material-ui/core/IconButton';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ChatWindow from './ChatWindow';
 import axios from 'axios';
 import io from 'socket.io-client';
@@ -45,7 +47,7 @@ function Chat() {
   const [messages, setMessages] = useState([]);
   const [socket, setSocket] = useState(null);
 
-  // Queue request and socket connection on component mount
+  // Queue request and getting id/secret
   useEffect(() => {
     axios.post(api_url + '/queue')
       .then(request => {
@@ -56,6 +58,7 @@ function Chat() {
       });
   }, []);
 
+  // Socket connection/listener registration once queue request returns secret/id
   useEffect(() => {
     if (socket && secret && id) {
       socket.on('connect', (() => {socket.emit('register_sid', secret)}));
