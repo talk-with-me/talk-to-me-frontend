@@ -1,7 +1,5 @@
 import {useState, useEffect} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
-import IconButton from '@material-ui/core/IconButton';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ChatWindow from './ChatWindow';
 import axios from 'axios';
 import io from 'socket.io-client';

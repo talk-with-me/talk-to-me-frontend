@@ -1,4 +1,3 @@
-import {useEffect, useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import {NavLink} from 'react-router-dom';
 import Box from '@material-ui/core/Box';
@@ -15,6 +14,10 @@ const useStyles = makeStyles((theme) => ({
     'flex-grow': '2',
     'margin': 'auto',
     'display': 'flex',
+    [theme.breakpoints.down('xs')]: {
+      'flex-direction': 'column',
+      'width': '100%',
+    }
   },
   backButton: {
     'margin-top': '10px',
@@ -82,7 +85,6 @@ const useStyles = makeStyles((theme) => ({
  * @return {object} JSX
  */
 function ChatWindow(props) {
-  const [textFieldContent, setTextFieldContent] = useState('');
   const classes = useStyles();
   console.log(props);
 
@@ -127,7 +129,7 @@ function ChatWindow(props) {
           placeholder="Send a message!"
           variant="outlined"
           onKeyDown= {(event) => {
-            if (event.key == 'Enter') {
+            if (event.key === 'Enter') {
               console.log(event.target.value);
               sendMessage(event.target.value);
               event.target.value = '';
