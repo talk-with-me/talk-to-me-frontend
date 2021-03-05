@@ -54,6 +54,7 @@ const useStyles = makeStyles((theme) => ({
     'font-size': '14pt',
     'padding': '10px',
     'overflow': 'scroll',
+    'height': '100%',
   },
   myMessage: {
     'margin': '4px',
