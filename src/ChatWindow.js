@@ -1,4 +1,5 @@
 import {makeStyles} from '@material-ui/core/styles';
+import {useEffect, useState} from 'react';
 import {NavLink} from 'react-router-dom';
 import Box from '@material-ui/core/Box';
 import InputBase from '@material-ui/core/InputBase';
@@ -73,6 +74,11 @@ const useStyles = makeStyles((theme) => ({
     'padding': '12px',
     'border-radius': '10px',
   },
+  disconnectMessage: {
+    'display': 'inline-flex',
+    'align-self': 'center',
+    'color':'#888',
+  },
   inputBox: {
     'padding': '5px',
   }
@@ -89,6 +95,12 @@ function ChatWindow(props) {
   console.log(props);
 
   const messages = props['messages'];
+  const [partnerDisconnected, setPartnerDisconnected] = useState(false);
+
+  // Set up listener for partner disconnect
+  useEffect(() => {
+    props['socket'].on('user_disconnected', (() => {setPartnerDisconnected(true)}));
+  });
 
   // Post message request
   const sendMessage = ((content) => {
@@ -124,6 +136,7 @@ function ChatWindow(props) {
               {message.content}
             </div>
           ))}
+          {partnerDisconnected ? <div className={classes.disconnectMessage}>Partner has disconnected</div> : <></>}
         </div>
         <InputBase className={classes.inputBox}
           placeholder="Send a message!"

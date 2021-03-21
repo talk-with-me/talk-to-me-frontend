@@ -89,7 +89,7 @@ function Chat() {
         </div>
       }
       {queueStatus === 'out' ?
-        <ChatWindow messages={messages} setMessages={setMessages} user_id={id} secret={secret} api_url={api_url}/> :
+        <ChatWindow messages={messages} setMessages={setMessages} user_id={id} secret={secret} api_url={api_url} socket={socket}/> :
         <div />
       }
     </div>

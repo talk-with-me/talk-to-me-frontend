@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
  */
 function Topbar() {
   const classes = useStyles();
-  const {sidebarOpen, setSidebarOpen} = React.useContext(SharedContext);
+  const {setSidebarOpen} = React.useContext(SharedContext);
 
   return (
     <div className={classes.root}>
