@@ -111,12 +111,20 @@ function ChatWindow(props) {
   console.log(props);
 
   const messages = props['messages'];
+  const socket = props['socket'];
   const [partnerDisconnected, setPartnerDisconnected] = useState(false);
 
   // Set up listener for partner disconnect
   useEffect(() => {
-    props['socket'].on('user_disconnected', (() => {setPartnerDisconnected(true)}));
+    socket.on('user_disconnected', (() => {setPartnerDisconnected(true)}));
   });
+
+  // Called right before component unmounts, user leaving chat window
+  useEffect(() => {
+    return () => { 
+      socket.disconnect();
+    }
+  }, []);
 
   // Post message request
   const sendMessage = ((content) => {
