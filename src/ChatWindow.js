@@ -124,7 +124,7 @@ function ChatWindow(props) {
     return () => { 
       socket.disconnect();
     }
-  }, []);
+  }, [socket]);
 
   // Post message request
   const sendMessage = ((content) => {
