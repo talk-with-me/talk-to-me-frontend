@@ -32,7 +32,6 @@ const useStyles = makeStyles((theme) => ({
   },
   chatWindow: {
     'width': '100%',
-    'height': '100%',
     'background': '#FEFEFE',
     'color': '#333',
     'border-radius': '5px',
