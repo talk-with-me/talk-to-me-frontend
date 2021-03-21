@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
   root: {
     'position': 'relative',
-    'top': '-100px',
+    'top': '-105px',
     'flex-grow': '2',
     'margin': 'auto',
     'display': 'flex',
@@ -55,6 +55,7 @@ const useStyles = makeStyles((theme) => ({
     'font-size': '32pt',
     'display': 'flex', // HELL YEAH FLEXBOX
     'flex-direction': 'column',
+    'flex-grow': '1',
     [theme.breakpoints.up('sm')]: {
       'width': '600px',
     },

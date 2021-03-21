@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     'width': '900px',
   },
   waitMessage: {
-    'padding-top': '40px',
+    'padding-top': '45px',
     'color': '#ffa740',
     'text-align': 'center',
     'font-size': '32pt',
@@ -78,8 +78,6 @@ function Chat() {
 
   return (
     <div className={classes.root}>
-      <div className={classes.title}>
-      </div>
       {queueStatus === 'out' ?
         <div className={classes.waitMessage}>
           Match found!
