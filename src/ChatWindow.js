@@ -9,12 +9,27 @@ import axios from 'axios'
 import {v4 as uuidv4} from 'uuid';
 
 const useStyles = makeStyles((theme) => ({
+  "@keyframes fadeIn": {
+    "0%": {
+      opacity: 0,
+      transform: "translateY(-100%)",
+    },
+    "50%": {
+      opacity: 0,
+      transform: "translateY(-100%)",
+    },
+    "100%": {
+      opacity: 1,
+      transform: "translateY(0%)",
+    }
+  },
   root: {
     'position': 'relative',
     'top': '-100px',
     'flex-grow': '2',
     'margin': 'auto',
     'display': 'flex',
+    'animation': '$fadeIn ease 3000ms',
     [theme.breakpoints.down('xs')]: {
       'flex-direction': 'column',
       'width': '100%',
