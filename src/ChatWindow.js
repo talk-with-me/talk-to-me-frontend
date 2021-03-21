@@ -93,6 +93,7 @@ const useStyles = makeStyles((theme) => ({
     'display': 'inline-flex',
     'align-self': 'center',
     'color':'#888',
+    'padding':'10px',
   },
   inputBox: {
     'padding': '5px',
@@ -139,6 +140,7 @@ function ChatWindow(props) {
       <IconButton
         className={classes.backButton}
         component={NavLink}
+        onClick={() => props['socket'].disconnect()}
         to='/'>
         <ArrowBackIcon className={classes.backIcon}/>
       </IconButton>
