@@ -71,6 +71,7 @@ const useStyles = makeStyles((theme) => ({
     'padding': '10px',
     'overflow': 'scroll',
     'height': '100%',
+    'max-height': '100%',
   },
   myMessage: {
     'margin': '4px',
@@ -96,6 +97,11 @@ const useStyles = makeStyles((theme) => ({
     'color':'#888',
     'padding':'10px',
   },
+  typingStatus: {
+    'font-size':'14pt',
+    'padding':'5px',
+    'color':'#888'
+  },
   inputBox: {
     'padding': '5px',
   }
@@ -114,10 +120,13 @@ function ChatWindow(props) {
   const messages = props['messages'];
   const socket = props['socket'];
   const [partnerDisconnected, setPartnerDisconnected] = useState(false);
+  const [partnerTyping, setPartnerTyping] = useState(false);
 
   // Set up listener for partner disconnect
   useEffect(() => {
     socket.on('user_disconnected', (() => {setPartnerDisconnected(true)}));
+    socket.on('partner_starts_typing', (() => {setPartnerTyping(true)}));
+    socket.on('partner_stops_typing', (() => {setPartnerTyping(false)}));
   });
 
   // Called right before component unmounts, user leaving chat window
@@ -163,6 +172,10 @@ function ChatWindow(props) {
             </div>
           ))}
           {partnerDisconnected ? <div className={classes.disconnectMessage}>Partner has disconnected</div> : <></>}
+        </div>
+        <div className={classes.typingStatus}
+          hidden={!partnerTyping}>
+          Partner is typing...
         </div>
         <InputBase className={classes.inputBox}
           placeholder="Send a message!"
