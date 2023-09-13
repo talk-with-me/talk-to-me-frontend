@@ -7,6 +7,7 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import IconButton from '@material-ui/core/IconButton';
 import axios from 'axios'
 import {v4 as uuidv4} from 'uuid';
+import { UndoRounded } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
   "@keyframes fadeIn": {
@@ -139,11 +140,11 @@ function ChatWindow(props) {
   // Post message request
   const sendMessage = ((content) => {
     const message = {
-        'message_id': uuidv4(),
-        'user_id': props['user_id'],
-        'secret': props['secret'],
-        'content': content
-      };
+      'message_id': uuidv4(),
+      'user_id': props['user_id'],
+      'secret': props['secret'],
+      'content': content
+    };
 
     console.log(message);
     props['setMessages'](messages.concat([message]));
@@ -152,6 +153,24 @@ function ChatWindow(props) {
       message
     );
   });
+
+  // Requests for when user starts or stops typing
+  const sendUserTypingRequest = ((userIsTyping) => {
+    const requestBody = {
+      'user_id': props['user_id'],
+      'secret': props['secret'],
+      'typing': userIsTyping
+    };
+
+    axios.post(
+      props['api_url'] + '/typing',
+      requestBody
+    );
+  })
+
+  // Typing notification stuff
+  var typingTimer = null;
+  const typingTimerDelay = 2500;
 
   return (
     <div className={classes.root}>
@@ -184,7 +203,19 @@ function ChatWindow(props) {
             if (event.key === 'Enter') {
               console.log(event.target.value);
               sendMessage(event.target.value);
+              sendUserTypingRequest(false);
               event.target.value = '';
+            } else {
+              if (typingTimer != null) {
+                clearTimeout(typingTimer);
+              }
+              else {
+                sendUserTypingRequest(true);
+              }
+              typingTimer = setTimeout((() => {
+                sendUserTypingRequest(false);
+                typingTimer = null
+              }),typingTimerDelay)
             }
           }}
         />
