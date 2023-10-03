@@ -11,12 +11,11 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   welcomeTitle: {
+    'flex': '1',
     'color': '#ffa740',
     'width': '100%',
-    'height': 'calc(100vh - 70px)',
     'text-align': 'center',
     'font-size': '72pt',
-    'flex': '1',
     'min-width': '500px',
     'height': 'calc(100vh - 70px)',
     [theme.breakpoints.down('sm')]:{
@@ -31,28 +30,6 @@ const useStyles = makeStyles((theme) => ({
     'text-align': 'center',
     'min-width': '500px',
     'height': 'calc(100vh - 70px)',
-  },
-  welcomeMessage: {
-    'color': '#f74a61',
-    'text-align': 'justify',
-    'text-justify': 'inter-word',
-    'text-indent': '40pt',
-    'padding-top': '20px',
-    'font-size': '24pt',
-    'font-weight': '500',
-    'width': '100%',
-    'margin': 'auto',
-    'line-height': '50px',
-    [theme.breakpoints.up('md')]:{
-      'padding-top': '40px',
-      'width': '900px',
-    },
-    [theme.breakpoints.down('sm')]:{
-      'font-size': '20pt',
-    },
-    [theme.breakpoints.down('xs')]:{
-      'font-size': '16pt',
-    },
   },
   infoIcon: {
     'color': '#f74a61',
