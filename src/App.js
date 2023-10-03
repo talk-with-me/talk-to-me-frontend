@@ -12,6 +12,7 @@ import Topbar from './Topbar';
 const useStyles = makeStyles((theme) => ({
   root: {
     'font-family': 'Roboto',
+    'height': '100%',
   },
   menuIcon: {
     'font-size': '30pt',
