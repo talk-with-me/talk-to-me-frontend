@@ -82,6 +82,7 @@ const useStyles = makeStyles((theme) => ({
     'color': 'white',
     'padding': '12px',
     'border-radius': '10px',
+    'max-width': '100%',
   },
   theirMessage: {
     'margin': '4px',
@@ -91,6 +92,7 @@ const useStyles = makeStyles((theme) => ({
     'color': 'black',
     'padding': '12px',
     'border-radius': '10px',
+    'max-width': '100%',
   },
   disconnectMessage: {
     'display': 'inline-flex',
@@ -193,7 +195,8 @@ function ChatWindow(props) {
           {partnerDisconnected ? <div className={classes.disconnectMessage}>Partner has disconnected</div> : <></>}
         </div>
         <div className={classes.typingStatus}
-          hidden={!partnerTyping}>
+          //hidden={!partnerTyping}>
+          hidden={false}>
           Partner is typing...
         </div>
         <InputBase className={classes.inputBox}

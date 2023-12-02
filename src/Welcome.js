@@ -1,5 +1,5 @@
-import {makeStyles} from '@material-ui/core/styles';
-import AccessibilityIcon from '@mui/icons-material/Accessibility';
+import { makeStyles } from '@material-ui/core/styles';
+import { useContext, useEffect } from 'react';
 
 const themeOrange = '#ffa740';
 const themeRed = '#f74a61';
@@ -20,6 +20,19 @@ const useStyles = makeStyles((theme) => ({
   },
   // "Welcome to Talk To Me" title
   welcomeTitle: {
+    'width': '100%',
+    'min-width': '500px',
+    'text-align': 'center',
+    'font-size': '72pt',
+    'color': themeOrange,
+    [theme.breakpoints.down('sm')]:{
+      'font-size': '36pt',
+    },
+    [theme.breakpoints.down('xs')]:{
+      'font-size': '24pt',
+    },
+  },
+  welcomeTitleWithAnimation: {
     'width': '100%',
     'min-width': '500px',
     'text-align': 'center',
@@ -52,6 +65,13 @@ const useStyles = makeStyles((theme) => ({
     'color': themeRed,
     'font-size': '32pt',
     'text-align': 'center',
+  },
+  mainBlurbWithAnimation: {
+    'width': '800px',
+    'padding-top': '40px',
+    'color': themeRed,
+    'font-size': '32pt',
+    'text-align': 'center',
     'animation': '$fadeInMainBlurb ease 2000ms',
     'animation-delay': '1500ms',
     'animation-fill-mode': 'both',
@@ -68,6 +88,12 @@ const useStyles = makeStyles((theme) => ({
   },
   // Root component for Q&A section
   qAndASection: {
+    'padding-top': '40px',
+    'padding-bottom': '80px',
+    'max-width': '90vw',
+    'font-size': '24pt',
+  },
+  qAndASectionWithAnimation: {
     'padding-top': '40px',
     'padding-bottom': '80px',
     'max-width': '90vw',
@@ -118,18 +144,24 @@ const useStyles = makeStyles((theme) => ({
  *
  * @return {object} JSX
  */
-function Welcome() {
+function Welcome(props) {
   const classes = useStyles();
+
+  useEffect(() => {
+    if (props.firstLanding.current) {
+      props.firstLanding.current = false
+    }
+  }, [])
 
   return (
   <div className={classes.content}>
-      <div className={classes.welcomeTitle}>
+      <div className={props.firstLanding.current ? classes.welcomeTitleWithAnimation : classes.welcomeTitle}>
         Welcome to Talk To Me
       </div>
-      <div className={classes.mainBlurb}>
+      <div className={props.firstLanding.current ? classes.mainBlurbWithAnimation : classes.mainBlurb}>
         Your daily dose of wholesome social interaction.
       </div>
-      <div className={classes.qAndASection}>
+      <div className={props.firstLanding.current ? classes.qAndASectionWithAnimation : classes.qAndASection}>
         <div className={classes.oneQAndA}>
           <div className={classes.question}>
             What is Talk To Me?

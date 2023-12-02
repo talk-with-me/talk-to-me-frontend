@@ -2,7 +2,6 @@ import React from 'react';
 import {Route} from 'react-router-dom';
 import {NavLink} from 'react-router-dom';
 import {makeStyles} from '@material-ui/core/styles';
-import SharedContext from './SharedContext';
 import Button from '@material-ui/core/Button';
 import MenuIcon from '@material-ui/icons/Menu';
 import IconButton from '@material-ui/core/IconButton';
@@ -60,7 +59,6 @@ const useStyles = makeStyles((theme) => ({
  */
 function Topbar() {
   const classes = useStyles();
-  const {setSidebarOpen} = React.useContext(SharedContext);
 
   return (
     <div className={classes.root}>
@@ -71,11 +69,6 @@ function Topbar() {
         >
         Talk To Me
       </Button>
-      <IconButton
-        onClick={() => setSidebarOpen(true)}
-        className={classes.menuButton}>
-        <MenuIcon className={classes.menuIcon}/>
-      </IconButton>
       {/* Only display button outside of /chat route */}
       <Route
         path="\/([^c][^h][^a][^t].*|.{0,3})">

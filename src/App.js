@@ -1,12 +1,10 @@
-import {useState} from 'react';
-import {makeStyles} from '@material-ui/core/styles';
-import SharedContext from './SharedContext';
-import {Helmet} from 'react-helmet';
-import {Route, HashRouter, BrowserRouter} from 'react-router-dom';
+import { useState, useRef } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import { Helmet } from 'react-helmet';
+import { Route, BrowserRouter } from 'react-router-dom';
 import './App.css';
 import Welcome from './Welcome';
 import Chat from './Chat';
-import Sidebar from './Sidebar';
 import Topbar from './Topbar';
 
 const useStyles = makeStyles((theme) => ({
@@ -36,29 +34,22 @@ const useStyles = makeStyles((theme) => ({
  */
 function App() {
   const classes = useStyles();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [chatting, setChatting] = useState(false);
+  const firstLanding = useRef(true);
 
   return (
     <div className={classes.root}>
-      <SharedContext.Provider value={{
-        sidebarOpen, setSidebarOpen,
-        chatting, setChatting
-      }}>
-        <Helmet>
-          <title>Talk To Me</title>
-        </Helmet>
-        <BrowserRouter>
-          <Sidebar />
-          <Topbar />
-          <Route exact path='/'>
-            <Welcome />
-          </Route>
-          <Route path='/chat'>
-            <Chat />
-          </Route>
-        </BrowserRouter>
-      </SharedContext.Provider>
+      <Helmet>
+        <title>Talk To Me</title>
+      </Helmet>
+      <BrowserRouter>
+        <Topbar />
+        <Route exact path='/'>
+          <Welcome firstLanding={firstLanding} />
+        </Route>
+        <Route path='/chat'>
+          <Chat />
+        </Route>
+      </BrowserRouter>
     </div>
   );
 }
