@@ -2,7 +2,7 @@ import {useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import SharedContext from './SharedContext';
 import {Helmet} from 'react-helmet';
-import {Route, HashRouter} from 'react-router-dom';
+import {Route, HashRouter, BrowserRouter} from 'react-router-dom';
 import './App.css';
 import Welcome from './Welcome';
 import Chat from './Chat';
@@ -48,7 +48,7 @@ function App() {
         <Helmet>
           <title>Talk To Me</title>
         </Helmet>
-        <HashRouter>
+        <BrowserRouter>
           <Sidebar />
           <Topbar />
           <Route exact path='/'>
@@ -57,7 +57,7 @@ function App() {
           <Route path='/chat'>
             <Chat />
           </Route>
-        </HashRouter>
+        </BrowserRouter>
       </SharedContext.Provider>
     </div>
   );

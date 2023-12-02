@@ -5,24 +5,26 @@ const themeOrange = '#ffa740';
 const themeRed = '#f74a61';
 
 const useStyles = makeStyles((theme) => ({
+  // Root component for landing page
   content: {
     'padding-top': '80px',
-    'font-weight': 'bold',
-    'font-size': '32pt',
     'display': 'flex',
     'flex-direction': 'column',
     'align-items': 'center',
+    'font-weight': 'bold',
+    'font-size': '24pt',
     [theme.breakpoints.down('xs')]:{
       'padding-top': '30px',
       'padding': '20px',
     },
   },
+  // "Welcome to Talk To Me" title
   welcomeTitle: {
-    'color': themeOrange,
     'width': '100%',
+    'min-width': '500px',
     'text-align': 'center',
     'font-size': '72pt',
-    'min-width': '500px',
+    'color': themeOrange,
     'animation': '$fadeInTitle ease 2000ms',
     'animation-delay': '500ms',
     'animation-fill-mode': 'both',
@@ -43,10 +45,12 @@ const useStyles = makeStyles((theme) => ({
       transform: "translateY(0%)",
     }
   },
+  // Blurb just below main title
   mainBlurb: {
+    'width': '800px',
     'padding-top': '40px',
     'color': themeRed,
-    'width': '800px',
+    'font-size': '32pt',
     'text-align': 'center',
     'animation': '$fadeInMainBlurb ease 2000ms',
     'animation-delay': '1500ms',
@@ -62,18 +66,15 @@ const useStyles = makeStyles((theme) => ({
       transform: "translateY(0%)",
     }
   },
-  welcomeAndQuestions: {
-    'display': 'flex',
-    'flex-wrap': 'wrap',
-  },
+  // Root component for Q&A section
   qAndASection: {
     'padding-top': '40px',
-    'font-size': '24pt',
     'padding-bottom': '80px',
+    'max-width': '90vw',
+    'font-size': '24pt',
     'animation': '$fadeInQAndA ease 2000ms',
     'animation-delay': '2000ms',
     'animation-fill-mode': 'both',
-    'max-width': '90vw'
   },
   "@keyframes fadeInQAndA": {
     "0%": {
@@ -85,26 +86,30 @@ const useStyles = makeStyles((theme) => ({
       transform: "translateY(0%)",
     }
   },
+  // Single Q and A row
   oneQAndA: {
     'display': 'flex',
     'min-height': '100px',
   },
+  // Special last Q and A row
   lastQAndA: {
     'display': 'flex',
   },
+  // Question div
   question: {
-    'color': themeOrange,
-    'flex': '2',
-    'text-align': 'end',
     'padding': '10px',
     'padding-right': '20px',
-    'border-right': '2px solid ' + themeOrange
+    'border-right': '2px solid ' + themeOrange,
+    'flex': '2',
+    'color': themeOrange,
+    'text-align': 'end',
   },
+  // Answer div
   answer: {
-    'color': themeRed,
-    'flex': '3',
     'padding': '10px',
     'padding-left': '20px',
+    'flex': '3',
+    'color': themeRed,
   },
 }));
 
@@ -116,62 +121,45 @@ const useStyles = makeStyles((theme) => ({
 function Welcome() {
   const classes = useStyles();
 
-  /** 
   return (
-    <div className={classes.content}>
+  <div className={classes.content}>
       <div className={classes.welcomeTitle}>
-        Welcome to Talk To Me,
+        Welcome to Talk To Me
       </div>
-      <div className={classes.welcomeMessage}>
-        ... a wholesome, anonymous peer-to-peer text chat service created with the goal of providing
-        a safe and secure platform for people to interact and support each other through mutual, supportive
-        conversation.
+      <div className={classes.mainBlurb}>
+        Your daily dose of wholesome social interaction.
       </div>
-      <div className={classes.infoIcon}>
-        <AccessibilityIcon />
+      <div className={classes.qAndASection}>
+        <div className={classes.oneQAndA}>
+          <div className={classes.question}>
+            What is Talk To Me?
+          </div>
+          <div className={classes.answer}>
+            Talk To Me is an anonymous peer-to-peer text chat service.
+          </div>
+        </div>
+        <div className={classes.oneQAndA}>
+          <div className={classes.question}>
+            What is the purpose of Talk To Me?
+          </div>
+          <div className={classes.answer}>
+            Talk To Me was created as a place for people to come to, to just talk to someone else. During the COVID-19 pandemic,
+            many people experienced feelings of isolation that be could have been helped if they had someone to talk to. Talk To Me was 
+            created to provide that.
+          </div>
+        </div>
+        <div className={classes.lastQAndA}>
+          <div className={classes.question}>
+            How does it work?
+          </div>
+          <div className={classes.answer}>
+            Click the button in the top right to be placed in the matchmaking queue. When a chat partner has been found, you will
+            be placed into a chatroom with said person. Please be nice!
+          </div>
+        </div>
       </div>
-    </div>
+  </div>
   );
-  */
- return (
- <div className={classes.content}>
-    <div className={classes.welcomeTitle}>
-      Welcome to Talk To Me
-    </div>
-    <div className={classes.mainBlurb}>
-      Your daily dose of wholesome social interaction.
-    </div>
-    <div className={classes.qAndASection}>
-      <div className={classes.oneQAndA}>
-        <div className={classes.question}>
-          What is Talk To Me?
-        </div>
-        <div className={classes.answer}>
-          Talk To Me is an anonymous peer-to-peer text chat service.
-        </div>
-      </div>
-      <div className={classes.oneQAndA}>
-        <div className={classes.question}>
-          What is the purpose of Talk To Me?
-        </div>
-        <div className={classes.answer}>
-          Talk To Me was created as a place for people to come to, to just talk to someone else. During the COVID-19 pandemic,
-          many people experienced feelings of isolation that be could have been helped if they just had someone to talk to. Talk To Me was 
-          created to provide that.
-        </div>
-      </div>
-      <div className={classes.lastQAndA}>
-        <div className={classes.question}>
-          How does it work?
-        </div>
-        <div className={classes.answer}>
-          Click the button in the top right to be placed in the matchmaking queue. When a chat partner has been found, you will
-          be placed into a chatroom with said person. Be nice!
-        </div>
-      </div>
-    </div>
- </div>
- );
 }
 
 export default Welcome;
