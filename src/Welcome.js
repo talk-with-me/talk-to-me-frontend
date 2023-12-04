@@ -147,6 +147,7 @@ const useStyles = makeStyles((theme) => ({
 function Welcome(props) {
   const classes = useStyles();
 
+  // Set firstLanding to false after first time rendering so animations don't play on subsequent visits
   useEffect(() => {
     if (props.firstLanding.current) {
       props.firstLanding.current = false
