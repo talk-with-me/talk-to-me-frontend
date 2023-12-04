@@ -195,8 +195,7 @@ function ChatWindow(props) {
           {partnerDisconnected ? <div className={classes.disconnectMessage}>Partner has disconnected</div> : <></>}
         </div>
         <div className={classes.typingStatus}
-          //hidden={!partnerTyping}>
-          hidden={false}>
+          hidden={!partnerTyping}>
           Partner is typing...
         </div>
         <InputBase className={classes.inputBox}
